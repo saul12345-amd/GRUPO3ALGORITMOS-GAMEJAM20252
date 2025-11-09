@@ -345,7 +345,7 @@ namespace Semana10 {
 
 			lblVelocidad->Text = "Velocidad: " + velocidad.ToString();
 			panelMiniMapa->Invalidate();
-			panel1->Invalidate();
+			panel2->Invalidate();
 		}
 
 		System::Void panelMiniMapa_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
@@ -371,50 +371,58 @@ namespace Semana10 {
 
 	private: System::Void lblSumaAngulos_Click(System::Object^ sender, System::EventArgs^ e) {}
 	private: System::Void panel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		Graphics^ g = e->Graphics;
-		g->Clear(Color::FromArgb(220, 240, 220));
-
-		if (juegoService == nullptr || juegoService->getFiguraActual() == nullptr)
-			return;
-
-		Figura* jugador = juegoService->getFiguraActual();
-		int diametro = 12;
-		int panelWidth = panel1->Width;
-		int panelHeight = panel1->Height;
-		int maxX = panelDibujo->Width;
-		int maxY = panelDibujo->Height;
-
-		float relacionX = (float)jugador->getX() / (float)maxX;
-		float relacionY = (float)jugador->getY() / (float)maxY;
-
-		int x = (int)(panelWidth * relacionX);
-		int y = (int)(panelHeight * relacionY);
-
-		if (x < 0) x = 0;
-		if (x + diametro > panelWidth) x = panelWidth - diametro;
-		if (y < 0) y = 0;
-		if (y + diametro > panelHeight) y = panelHeight - diametro;
-
-		SolidBrush^ brocha = gcnew SolidBrush(Color::Yellow);
-		Pen^ borde = gcnew Pen(Color::Black, 1);
-
-		g->FillEllipse(brocha, x, y, diametro, diametro);
-		g->DrawEllipse(borde, x, y, diametro, diametro);
-
-		delete brocha;
-		delete borde;
 	}
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {}
 	private: System::Void label2_Click(System::Object^ sender, System::EventArgs^ e) {}
-	private: System::Void label2_Click_1(System::Object^ sender, System::EventArgs^ e) {}
-	private: System::Void panel2_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {}
+	private: System::Void label2_Click_1(System::Object^ sender, System::EventArgs^ e) {	}
+    private: System::Void panel2_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	   Graphics^ g = e->Graphics;
+
+	   // Fondo verde claro para el tramo 2
+	   g->Clear(Color::FromArgb(220, 240, 220));
+
+	   if (juegoService == nullptr || juegoService->getFiguraActual() == nullptr)
+		   return;
+
+	   Figura* jugador = juegoService->getFiguraActual();
+	   int diametro = 12;
+
+	   // ✅ Usar las dimensiones correctas del panel2
+	   int panelWidth = panel2->Width;
+	   int panelHeight = panel2->Height;
+	   int maxX = panelDibujo->Width;
+	   int maxY = panelDibujo->Height;
+
+	   // ✅ Escalar la posición del jugador al tamaño del panel2
+	   float relacionX = (float)jugador->getX() / (float)maxX;
+	   float relacionY = (float)jugador->getY() / (float)maxY;
+
+	   int x = (int)(panelWidth * relacionX);
+	   int y = (int)(panelHeight * relacionY);
+
+	   // Evitar que se salga del borde del panel
+	   if (x < 0) x = 0;
+	   if (x + diametro > panelWidth) x = panelWidth - diametro;
+	   if (y < 0) y = 0;
+	   if (y + diametro > panelHeight) y = panelHeight - diametro;
+
+	   // Dibujar el círculo con el color de la figura
+	   SolidBrush^ brocha = gcnew SolidBrush(juegoService->getFiguraActual()->getColor());
+	   Pen^ borde = gcnew Pen(Color::Black, 1);
+
+	   g->FillEllipse(brocha, x, y, diametro, diametro);
+	   g->DrawEllipse(borde, x, y, diametro, diametro);
+
+	   delete brocha;
+			   delete borde;
+		   }
 	private: System::Void panel3_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		Graphics^ g = e->Graphics;
 		int diametro = 15;
 		int x = 75;
 		int y = (MIniMapa->Height / 2) - (diametro / 2) - 65;
 
-		SolidBrush^ brocha = gcnew SolidBrush(Color::Yellow);
+		SolidBrush^ brocha = gcnew SolidBrush(juegoService->getFiguraActual()->getColor());
 		Pen^ borde = gcnew Pen(Color::Black, 1);
 
 		g->FillEllipse(brocha, x, y, diametro, diametro);

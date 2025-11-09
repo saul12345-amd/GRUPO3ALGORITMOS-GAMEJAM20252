@@ -364,7 +364,7 @@ namespace Semana10 {
 		int x = 75;
 		int y = (MIniMapa->Height / 2) - (diametro / 2) - 65;
 
-		SolidBrush^ brocha = gcnew SolidBrush(Color::Yellow);
+		SolidBrush^ brocha = gcnew SolidBrush(juegoService->getFiguraActual()->getColor());
 		Pen^ borde = gcnew Pen(Color::Black, 1);
 
 		g->FillEllipse(brocha, x, y, diametro, diametro);
@@ -398,7 +398,7 @@ namespace Semana10 {
 		if (y < 0) y = 0;
 		if (y + diametro > panelHeight) y = panelHeight - diametro;
 
-		SolidBrush^ brocha = gcnew SolidBrush(Color::Yellow);
+		SolidBrush^ brocha = gcnew SolidBrush(juegoService->getFiguraActual()->getColor());
 		Pen^ borde = gcnew Pen(Color::Black, 1);
 
 		g->FillEllipse(brocha, x, y, diametro, diametro);
