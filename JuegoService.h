@@ -17,6 +17,13 @@ private:
     int puntaje;
     int puntajeParaSiguienteNivel;
 
+    //para el automatico
+    int dirAutoX = 0;
+    int dirAutoY = 0;
+    int ticksDireccion = 0;
+    int ticksMaxDireccion = 10;
+    bool modoAutomatico;
+
 public:
     JuegoService(int ancho, int alto);
     ~JuegoService();
@@ -27,12 +34,17 @@ public:
     void verificarColisiones();
     void dibujar(Graphics^ graphics);
 
+    //automatico:
+    void setModoAutomatico(bool activo);
+    void actualizarMovimientoAutomatico();
+
     // 🔹 Métodos para niveles
     int getNivel();
     int getPuntaje();
     void cambiarNivel(int nivel);
     void subirNivel();
     void posicionarFiguraActualSegunNivel();
+    bool getAutomatico();
 
     // set de copiar figura
     void setFiguraActual(Figura* s);

@@ -36,6 +36,7 @@ JuegoService::JuegoService(int ancho, int alto) {
 
     // Posicionar según nivel inicial
     posicionarFiguraActualSegunNivel();
+    this->modoAutomatico = false;
 }
 
 // Destructor
@@ -72,6 +73,32 @@ void JuegoService::moverFiguraActual(int dx, int dy) {
     FiguraActual->setDirY(0);
 }
 
+void JuegoService::setModoAutomatico(bool activo) {
+    modoAutomatico = activo;
+}
+bool JuegoService::getAutomatico() {
+    return this->modoAutomatico;
+}
+void JuegoService::actualizarMovimientoAutomatico() {
+    if (modoAutomatico && FiguraActual != nullptr) {
+        if (ticksDireccion == 0) {
+
+            do {
+                dirAutoX = (rand() % 3) - 1;
+                dirAutoY = (rand() % 3) - 1;
+            } while (dirAutoX == 0 && dirAutoY == 0);
+            ticksDireccion = ticksMaxDireccion;
+        }
+
+        FiguraActual->setDirX(dirAutoX);
+        FiguraActual->setDirY(dirAutoY);
+        FiguraActual->mover(limiteAncho, limiteAlto);
+        FiguraActual->setDirX(0);
+        FiguraActual->setDirY(0);
+
+        ticksDireccion--;
+    }
+}
 // Variables globales
 int tipoAnteriorCarril[3] = { -1, -1, -1 };
 

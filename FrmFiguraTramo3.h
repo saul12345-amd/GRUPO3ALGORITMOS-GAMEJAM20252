@@ -14,7 +14,7 @@ namespace Semana10 {
 	public ref class FrmFiguraTramo3 : public System::Windows::Forms::Form
 	{
 	public:
-		FrmFiguraTramo3(Figura* figuraActual)
+		FrmFiguraTramo3(Figura* figuraActual, bool automatico)
 		{
 			InitializeComponent();
 
@@ -23,7 +23,8 @@ namespace Semana10 {
 
 			// Guardar datos de la figura
 			int numero = figuraActual->getNumero();
-
+			juegoService->setModoAutomatico(automatico);
+			this->automatico = automatico;
 			// ✅ Cambiar al nivel 3 primero
 			juegoService->cambiarNivel(3);
 
@@ -47,7 +48,7 @@ namespace Semana10 {
 		JuegoService* juegoService;
 		Graphics^ graphics;
 		int velocidad;
-
+		int automatico;
 		System::Windows::Forms::Panel^ panelDibujo;
 		System::Windows::Forms::Timer^ timer;
 	private: System::Windows::Forms::Panel^ MIniMapa;
@@ -311,6 +312,8 @@ namespace Semana10 {
 			juegoService->dibujar(buffer->Graphics);
 			juegoService->verificarColisiones();
 			juegoService->generarFiguras();
+			juegoService->actualizarMovimientoAutomatico();
+
 
 			buffer->Render(graphics);
 			delete buffer;
@@ -372,15 +375,17 @@ namespace Semana10 {
 		}
 
 		System::Void FrmMoverFiguraTecla_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-			if (e->KeyCode == Keys::W) juegoService->moverFiguraActual(0, -velocidad);
-			else if (e->KeyCode == Keys::S) juegoService->moverFiguraActual(0, velocidad);
-			else if (e->KeyCode == Keys::A) juegoService->moverFiguraActual(-velocidad, 0);
-			else if (e->KeyCode == Keys::D) juegoService->moverFiguraActual(velocidad, 0);
-			else if (e->KeyCode == Keys::Oemplus || e->KeyCode == Keys::Add) {
-				if (velocidad < 15) velocidad++;
-			}
-			else if (e->KeyCode == Keys::OemMinus || e->KeyCode == Keys::Subtract) {
-				if (velocidad > 1) velocidad--;
+			if (!juegoService->getAutomatico()) {
+				if (e->KeyCode == Keys::W) juegoService->moverFiguraActual(0, -velocidad);
+				else if (e->KeyCode == Keys::S) juegoService->moverFiguraActual(0, velocidad);
+				else if (e->KeyCode == Keys::A) juegoService->moverFiguraActual(-velocidad, 0);
+				else if (e->KeyCode == Keys::D) juegoService->moverFiguraActual(velocidad, 0);
+				else if (e->KeyCode == Keys::Oemplus || e->KeyCode == Keys::Add) {
+					if (velocidad < 15) velocidad++;
+				}
+				else if (e->KeyCode == Keys::OemMinus || e->KeyCode == Keys::Subtract) {
+					if (velocidad > 1) velocidad--;
+				}
 			}
 		}
 

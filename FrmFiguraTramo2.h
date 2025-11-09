@@ -15,13 +15,14 @@ namespace Semana10 {
 	public ref class FrmFiguraTramo2 : public System::Windows::Forms::Form
 	{
 	public:
-		FrmFiguraTramo2(Figura* figuraActual)
+		FrmFiguraTramo2(Figura* figuraActual, bool automatico)
 		{
 			InitializeComponent();
 
 			// Crear el JuegoService
 			juegoService = new JuegoService(panelDibujo->Width, panelDibujo->Height);
-
+			juegoService->setModoAutomatico(automatico);
+			this->automatico = automatico;
 			// Guardar datos de la figura
 			int ancho = figuraActual->getAncho();
 			int alto = figuraActual->getAlto();
@@ -55,6 +56,7 @@ namespace Semana10 {
 		Graphics^ graphics;
 		int velocidad;
 		bool cambioTramo;
+		bool automatico;
 
 		System::Windows::Forms::Panel^ panelDibujo;
 		System::Windows::Forms::Timer^ timer;
@@ -313,7 +315,7 @@ namespace Semana10 {
 				figuraActual->setLados(3);
 
 				// Crear el nuevo formulario
-				FrmFiguraTramo3^ frmTramo3 = gcnew FrmFiguraTramo3(figuraActual);
+				FrmFiguraTramo3^ frmTramo3 = gcnew FrmFiguraTramo3(figuraActual, automatico);
 				frmTramo3->Show();
 
 				// Cerrar el formulario actual
@@ -327,6 +329,7 @@ namespace Semana10 {
 			juegoService->dibujar(buffer->Graphics);
 			juegoService->verificarColisiones();
 			juegoService->generarFiguras();
+			juegoService->actualizarMovimientoAutomatico();
 
 			buffer->Render(graphics);
 			delete buffer;
@@ -357,15 +360,17 @@ namespace Semana10 {
 		}
 
 		System::Void FrmMoverFiguraTecla_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-			if (e->KeyCode == Keys::W) juegoService->moverFiguraActual(0, -velocidad);
-			else if (e->KeyCode == Keys::S) juegoService->moverFiguraActual(0, velocidad);
-			else if (e->KeyCode == Keys::A) juegoService->moverFiguraActual(-velocidad, 0);
-			else if (e->KeyCode == Keys::D) juegoService->moverFiguraActual(velocidad, 0);
-			else if (e->KeyCode == Keys::Oemplus || e->KeyCode == Keys::Add) {
-				if (velocidad < 15) velocidad++;
-			}
-			else if (e->KeyCode == Keys::OemMinus || e->KeyCode == Keys::Subtract) {
-				if (velocidad > 1) velocidad--;
+			if (!juegoService->getAutomatico()) {
+				if (e->KeyCode == Keys::W) juegoService->moverFiguraActual(0, -velocidad);
+				else if (e->KeyCode == Keys::S) juegoService->moverFiguraActual(0, velocidad);
+				else if (e->KeyCode == Keys::A) juegoService->moverFiguraActual(-velocidad, 0);
+				else if (e->KeyCode == Keys::D) juegoService->moverFiguraActual(velocidad, 0);
+				else if (e->KeyCode == Keys::Oemplus || e->KeyCode == Keys::Add) {
+					if (velocidad < 15) velocidad++;
+				}
+				else if (e->KeyCode == Keys::OemMinus || e->KeyCode == Keys::Subtract) {
+					if (velocidad > 1) velocidad--;
+				}
 			}
 		}
 
