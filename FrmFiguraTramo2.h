@@ -107,7 +107,7 @@ namespace Semana10 {
 			   this->panelDibujo->Location = System::Drawing::Point(8, 25);
 			   this->panelDibujo->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			   this->panelDibujo->Name = L"panelDibujo";
-			   this->panelDibujo->Size = System::Drawing::Size(1057, 774);
+			   this->panelDibujo->Size = System::Drawing::Size(1057, 869);
 			   this->panelDibujo->TabIndex = 0;
 			   this->panelDibujo->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmFiguraTramo2::panelDibujo_Paint);
 			   // 
@@ -288,6 +288,7 @@ namespace Semana10 {
 			   this->panelMiniMapa->ResumeLayout(false);
 			   this->panelMiniMapa->PerformLayout();
 			   this->ResumeLayout(false);
+
 		   }
 #pragma endregion
 

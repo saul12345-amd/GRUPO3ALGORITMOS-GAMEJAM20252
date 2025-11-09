@@ -99,7 +99,7 @@ namespace Semana10 {
 			   this->panelDibujo->Location = System::Drawing::Point(8, 25);
 			   this->panelDibujo->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			   this->panelDibujo->Name = L"panelDibujo";
-			   this->panelDibujo->Size = System::Drawing::Size(1057, 774);
+			   this->panelDibujo->Size = System::Drawing::Size(1057, 856);
 			   this->panelDibujo->TabIndex = 0;
 			   this->panelDibujo->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmFiguraTramo3::panelDibujo_Paint);
 			   // 
@@ -280,6 +280,7 @@ namespace Semana10 {
 			   this->panelMiniMapa->ResumeLayout(false);
 			   this->panelMiniMapa->PerformLayout();
 			   this->ResumeLayout(false);
+
 		   }
 #pragma endregion
 
@@ -293,31 +294,64 @@ namespace Semana10 {
 			BufferedGraphics^ buffer = contexto->Allocate(graphics, panelDibujo->ClientRectangle);
 			buffer->Graphics->Clear(Color::FromArgb(255, 229, 217));
 
-			// ✅ Terminar el juego cuando llegue a 10 lados
+			// ✅ Cuando llega a 10 lados (decágono)
 			if (juegoService->getFiguraActual()->getLados() >= 10) {
 				timer->Stop();
+
+				// Dibuja el decágono final
 				juegoService->dibujar(buffer->Graphics);
+
+				// 🏆 Mostrar "YOU WIN" en grande
+				System::Drawing::Font^ fuente = gcnew System::Drawing::Font(
+					"Segoe UI", 72, FontStyle::Bold
+				);
+				System::Drawing::StringFormat^ formato = gcnew System::Drawing::StringFormat();
+				formato->Alignment = StringAlignment::Center;
+				formato->LineAlignment = StringAlignment::Center;
+
+				buffer->Graphics->DrawString(
+					"YOU WIN!",
+					fuente,
+					Brushes::Gold,
+					RectangleF(0, 0, panelDibujo->Width, panelDibujo->Height),
+					formato
+				);
+
+				// Agrega borde de texto (efecto sombra)
+				buffer->Graphics->DrawString(
+					"YOU WIN!",
+					fuente,
+					Brushes::Black,
+					RectangleF(5, 5, panelDibujo->Width, panelDibujo->Height),
+					formato
+				);
+
+				buffer->Render(graphics);
+				delete fuente;
+				delete formato;
+				delete buffer;
+
+				// Mostrar mensaje final
 				MessageBox::Show("¡Felicidades! Has completado todos los tramos del juego.",
-					"Juego Completado",
+					"YOU WIN",
 					MessageBoxButtons::OK,
 					MessageBoxIcon::Information);
 
-				delete buffer;
 				this->Close();
 				return;
 			}
 
+			// Movimiento y dibujo normal del juego
 			juegoService->moverFiguras();
 			juegoService->dibujar(buffer->Graphics);
 			juegoService->verificarColisiones();
 			juegoService->generarFiguras();
 			juegoService->actualizarMovimientoAutomatico();
 
-
 			buffer->Render(graphics);
 			delete buffer;
 
-			// Actualizar labels
+			// Actualizar etiquetas
 			if (juegoService->getFiguraActual() != nullptr) {
 				Figura* jugador = juegoService->getFiguraActual();
 				int lados = jugador->getLados();
@@ -331,8 +365,8 @@ namespace Semana10 {
 
 			lblVelocidad->Text = "Velocidad: " + velocidad.ToString();
 			panelMiniMapa->Invalidate();
-			
 		}
+
 		System::Void panelMiniMapa_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 			Graphics^ g = e->Graphics;
 			g->Clear(Color::FromArgb(255, 229, 217));
