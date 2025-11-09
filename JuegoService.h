@@ -23,6 +23,7 @@ private:
     int ticksDireccion = 0;
     int ticksMaxDireccion = 10;
     bool modoAutomatico;
+    int colorJugadorR, colorJugadorG, colorJugadorB;
 
 public:
     JuegoService(int ancho, int alto);

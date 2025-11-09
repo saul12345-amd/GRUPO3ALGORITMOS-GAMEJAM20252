@@ -15,13 +15,22 @@ JuegoService::JuegoService(int ancho, int alto) {
     puntaje = 0;
     puntajeParaSiguienteNivel = 10;
 
-    // 🔸 Color fijo: Verde
-    int r = 0;
-    int g = 255;
-    int b = 0;
+    // 🔸 Colores posibles del jugador: rojo, amarillo o azul
+    struct ColorRGB { int r, g, b; };
+    ColorRGB colores[3] = {
+        {255, 0, 0},     // Rojo
+        {255, 255, 0},   // Amarillo
+        {0, 0, 255}      // Azul
+    };
 
-    // Crear polígono inicial (triángulo verde)
-    FiguraActual = new Poligono(50, alto / 2 - 40, 80, 80, r, g, b, true, 3);
+    int indiceColor = rand() % 3;
+    colorJugadorR = colores[indiceColor].r;
+    colorJugadorG = colores[indiceColor].g;
+    colorJugadorB = colores[indiceColor].b;
+
+    // Crear polígono inicial con color aleatorio
+    FiguraActual = new Poligono(50, alto / 2 - 40, 80, 80,
+        colorJugadorR, colorJugadorG, colorJugadorB, true, 3);
     FiguraActual->setSeMueve(true);
     FiguraActual->setNumero(0);
 
@@ -64,9 +73,11 @@ void JuegoService::moverFiguraActual(int dx, int dy) {
 void JuegoService::setModoAutomatico(bool activo) {
     modoAutomatico = activo;
 }
+
 bool JuegoService::getAutomatico() {
     return this->modoAutomatico;
 }
+
 void JuegoService::actualizarMovimientoAutomatico() {
     if (modoAutomatico && FiguraActual != nullptr) {
         if (ticksDireccion == 0) {
@@ -101,13 +112,15 @@ void JuegoService::generarFiguras() {
 
         struct ColorRGB { int r, g, b; };
         ColorRGB colores[3] = {
-            {0, 0, 255},     // Azul
             {255, 0, 0},     // Rojo
-            {255, 255, 0}    // Amarillo
+            {255, 255, 0},   // Amarillo
+            {0, 0, 255}      // Azul
         };
 
-        // Color del jugador (verde)
-        int rC = 0, gC = 255, bC = 0;
+        // Color del jugador
+        int rC = colorJugadorR;
+        int gC = colorJugadorG;
+        int bC = colorJugadorB;
 
         // Desordenar tipos
         for (int i = 0; i < 3; i++) {
@@ -117,7 +130,7 @@ void JuegoService::generarFiguras() {
             tiposDisponibles[j] = temp;
         }
 
-        int carrilVerde = rand() % 3;
+        int carrilColorJugador = rand() % 3;
 
         // 🔹 Generar figuras según el nivel
         for (int i = 0; i < 3; i++) {
@@ -151,11 +164,15 @@ void JuegoService::generarFiguras() {
             }
 
             int r, g, b;
-            if (i == carrilVerde) {
+            if (i == carrilColorJugador) {
                 r = rC; g = gC; b = bC; // Mismo color que el jugador
             }
             else {
-                ColorRGB c = colores[rand() % 3];
+                // Asegurarse que las otras figuras NO sean del mismo color que el jugador
+                ColorRGB c;
+                do {
+                    c = colores[rand() % 3];
+                } while (c.r == rC && c.g == gC && c.b == bC);
                 r = c.r; g = c.g; b = c.b;
             }
 
@@ -267,7 +284,7 @@ int JuegoService::getPuntaje() { return puntaje; }
 
 void JuegoService::cambiarNivel(int nivel) {
     if (nivel >= 1 && nivel <= 3) {
-        int rC = 0, gC = 255, bC = 0; // Verde fijo
+        int rC = colorJugadorR, gC = colorJugadorG, bC = colorJugadorB;
         int lados = FiguraActual->getLados();
         int numero = FiguraActual->getNumero();
 
@@ -277,7 +294,7 @@ void JuegoService::cambiarNivel(int nivel) {
         figurasLanzadas.clear();
         limiteFigurasActivas = 1;
 
-        // Recrear figura actual
+        // Recrear figura actual con mismo color
         if (FiguraActual) delete FiguraActual;
         FiguraActual = new Poligono(0, 0, 80, 80, rC, gC, bC, true, lados);
         FiguraActual->setNumero(numero);
@@ -292,7 +309,7 @@ void JuegoService::subirNivel() {
         nivelActual++;
         puntajeParaSiguienteNivel += 15;
 
-        int rC = 0, gC = 255, bC = 0; // Verde fijo
+        int rC = colorJugadorR, gC = colorJugadorG, bC = colorJugadorB;
         int lados = FiguraActual->getLados();
         int numero = FiguraActual->getNumero();
 
@@ -300,7 +317,7 @@ void JuegoService::subirNivel() {
         figurasLanzadas.clear();
         limiteFigurasActivas = 1;
 
-        // Recrear figura actual (manteniendo color y forma)
+        // Recrear figura actual manteniendo color y lados
         if (FiguraActual) delete FiguraActual;
         FiguraActual = new Poligono(0, 0, 80, 80, rC, gC, bC, true, lados);
         FiguraActual->setNumero(numero);
