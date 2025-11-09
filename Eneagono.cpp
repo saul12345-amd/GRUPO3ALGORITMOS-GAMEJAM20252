@@ -1,33 +1,28 @@
 ﻿#include "Eneagono.h"
+#include <cmath>
 
 Eneagono::Eneagono(int x, int y, int ancho, int alto, int r, int g, int b, bool relleno)
     : Figura(x, y, ancho, alto, r, g, b, relleno) {
-    lados = 9;
+    lados = 9; // importante si lo usas en la lógica general
 }
 
 void Eneagono::dibujar(Graphics^ graphics) {
     Color color = Color::FromArgb(r, g, b);
+    Point centro(x + ancho / 2, y + alto / 2);
+    int radio = ancho / 2;
 
-    // 🔹 Coordenadas aproximadas del eneágono (9 lados, sin usar cmath)
     array<Point>^ puntos = gcnew array<Point>(9);
 
-    int cx = x + ancho / 2;
-    int cy = y + alto / 2;
-    int rX = ancho / 2;
-    int rY = alto / 2;
+    // Generar los 9 vértices del eneágono regular
+    for (int i = 0; i < 9; i++) {
+        double angulo = -Math::PI / 2 + (2 * Math::PI * i / 9);
+        puntos[i] = Point(
+            centro.X + (int)(radio * Math::Cos(angulo)),
+            centro.Y + (int)(radio * Math::Sin(angulo))
+        );
+    }
 
-    // Los puntos están distribuidos manualmente para formar una figura casi circular
-    puntos[0] = Point(cx, y);                    // Arriba
-    puntos[1] = Point(x + (3 * ancho / 4), y + alto / 8);
-    puntos[2] = Point(x + ancho, y + alto / 3);
-    puntos[3] = Point(x + ancho, y + (2 * alto / 3));
-    puntos[4] = Point(x + (3 * ancho / 4), y + (7 * alto / 8));
-    puntos[5] = Point(cx, y + alto);
-    puntos[6] = Point(x + ancho / 4, y + (7 * alto / 8));
-    puntos[7] = Point(x, y + (2 * alto / 3));
-    puntos[8] = Point(x, y + alto / 3);
-
-    // 🔸 Dibujar relleno o contorno
+    // Dibujar relleno o contorno
     if (relleno) {
         SolidBrush^ brush = gcnew SolidBrush(color);
         graphics->FillPolygon(brush, puntos);
@@ -37,17 +32,14 @@ void Eneagono::dibujar(Graphics^ graphics) {
         graphics->DrawPolygon(pen, puntos);
     }
 
-    // 🔹 Dibujar número en el centro
+    // Dibujar número en el centro
     if (numero >= 0) {
         String^ texto = numero.ToString();
         Font^ font = gcnew Font("Arial", 14, FontStyle::Bold);
         SolidBrush^ brushTexto = gcnew SolidBrush(Color::Black);
-        SizeF tamanioTexto = graphics->MeasureString(texto, font);
-
-        float centroX = x + ancho / 2.0f - tamanioTexto.Width / 2;
-        float centroY = y + alto / 2.0f - tamanioTexto.Height / 2;
-
-        graphics->DrawString(texto, font, brushTexto, centroX, centroY);
+        SizeF t = graphics->MeasureString(texto, font);
+        float cx = x + ancho / 2.0f - t.Width / 2;
+        float cy = y + alto / 2.0f - t.Height / 2;
+        graphics->DrawString(texto, font, brushTexto, cx, cy);
     }
 }
-

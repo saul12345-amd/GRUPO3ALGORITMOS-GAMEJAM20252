@@ -10,3 +10,4 @@ public:
     void dibujar(Graphics^ graphics) override;
     int getLados() override { return 7; }
 };
+
