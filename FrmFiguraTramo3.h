@@ -25,6 +25,7 @@ namespace Semana10 {
 			int numero = figuraActual->getNumero();
 			juegoService->setModoAutomatico(automatico);
 			this->automatico = automatico;
+
 			// ✅ Cambiar al nivel 3 primero
 			juegoService->cambiarNivel(3);
 
