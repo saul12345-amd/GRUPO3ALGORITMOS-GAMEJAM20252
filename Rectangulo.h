@@ -8,4 +8,5 @@ class Rectangulo : public Figura {
 public:
     Rectangulo(int x, int y, int ancho, int alto, int r, int g, int b, bool relleno);
     void dibujar(Graphics^ graphics) override;
+    int getLados() override { return 4; }
 };

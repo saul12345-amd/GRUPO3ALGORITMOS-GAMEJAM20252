@@ -8,7 +8,7 @@ JuegoService::JuegoService(int ancho, int alto) {
     limiteAncho = ancho;
     limiteAlto = alto;
 
-    // Circulo controlable (izquierda)
+    // Triangulo controolabel (izquierda)
 	FiguraActual = new Triangulo(50, alto / 2 - 40, 80, 80, 0, 255, 0, true); // Verde
     FiguraActual->setSeMueve(true);  // El círculo siempre puede moverse
     FiguraActual->setNumero(0);
@@ -136,44 +136,84 @@ void JuegoService::verificarColisiones() {
     for (int i = 0; i < figurasLanzadas.size(); i++) {
         Figura* figLanzada = figurasLanzadas[i];
 
-        // Verificar colisión con el círculo del jugador
         if (figLanzada->getRectangulo().IntersectsWith(FiguraActual->getRectangulo())) {
 
-            // Obtener colores RGB
+            // Obtener colores
             int rL, gL, bL;
             int rC, gC, bC;
-
             figLanzada->getColor(rL, gL, bL);
             FiguraActual->getColor(rC, gC, bC);
 
             bool mismoColor = (rL == rC && gL == gC && bL == bC);
 
+            // 🔹 Obtener lados y número actual
+            int ladosActuales = FiguraActual->getLados();
+            int nuevosLados = ladosActuales;
+
+            int numeroJugador = FiguraActual->getNumero();
+            int numeroLanzado = figLanzada->getNumero();
+
+            // 🔹 Aumentar o disminuir lados según color
             if (mismoColor) {
-                // ✅ Mismo color → sumar
-                FiguraActual->setNumero(FiguraActual->getNumero() + figLanzada->getNumero());
+                nuevosLados++;
+                if (nuevosLados > 10) nuevosLados = 10;
+                numeroJugador += numeroLanzado; // Suma número si es del mismo color
             }
             else {
-                // ❌ Diferente color → restar
-                FiguraActual->setNumero(FiguraActual->getNumero() - figLanzada->getNumero());
-
-                // Evitar números negativos
-                if (FiguraActual->getNumero() < 0)
-                    FiguraActual->setNumero(0);
+                nuevosLados--;
+                if (nuevosLados < 3) nuevosLados = 3;
+                numeroJugador -= numeroLanzado; // Resta número si es diferente color
+                if (numeroJugador < 0) numeroJugador = 0; // Evitar negativos
             }
 
-            // Eliminar figura lanzada
+            // 🔸 Guardar datos actuales antes de recrear la figura
+            int x = FiguraActual->getX();
+            int y = FiguraActual->getY();
+            int ancho = FiguraActual->getAncho();
+            int alto = FiguraActual->getAlto();
+            int r, g, b;
+            FiguraActual->getColor(r, g, b);
+
+            delete FiguraActual; // eliminar figura anterior
+
+            // 🔹 Crear nueva figura según el número de lados
+            if (nuevosLados == 3)
+                FiguraActual = new Triangulo(x, y, ancho, alto, r, g, b, true);
+            else if (nuevosLados == 4)
+                FiguraActual = new Rectangulo(x, y, ancho, alto, r, g, b, true);
+            else if (nuevosLados == 5)
+                FiguraActual = new Pentagono(x, y, ancho, alto, r, g, b, true);
+            else if (nuevosLados == 6)
+                FiguraActual = new Hexagono(x, y, ancho, alto, r, g, b, true);
+            else if (nuevosLados == 7)
+                FiguraActual = new Heptagono(x, y, ancho, alto, r, g, b, true);
+            else if (nuevosLados == 8)
+                FiguraActual = new Octogono(x, y, ancho, alto, r, g, b, true);
+            else if (nuevosLados == 9)
+                FiguraActual = new Eneagono(x, y, ancho, alto, r, g, b, true);
+            else if (nuevosLados == 10)
+                FiguraActual = new Decagono(x, y, ancho, alto, r, g, b, true);
+
+            // Configurar nueva figura actual
+            FiguraActual->setSeMueve(true);
+            FiguraActual->setNumero(numeroJugador);
+
+            // 🔹 Eliminar figura lanzada
             delete figLanzada;
             figurasLanzadas.erase(figurasLanzadas.begin() + i);
-            i--;  // Ajustar índice tras eliminar
+            i--;
             limiteFigurasActivas--;
         }
     }
 }
 
+
 // Renderizar escena
 void JuegoService::dibujar(Graphics^ graphics) {
     // Solo dibuja, no modifica el estado del juego
-    FiguraActual->dibujar(graphics);
+    if (FiguraActual != nullptr) {
+        FiguraActual->dibujar(graphics);
+    }
     for each (Figura * figura in figurasLanzadas) {
         figura->dibujar(graphics);
     }

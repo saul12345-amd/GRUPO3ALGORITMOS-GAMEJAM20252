@@ -2,6 +2,7 @@
 
 Rectangulo::Rectangulo(int x, int y, int ancho, int alto, int r, int g, int b, bool relleno)
     : Figura(x, y, ancho, alto, r, g, b, relleno) {
+    lados = 4;
 }
 
 void Rectangulo::dibujar(Graphics^ graphics) {

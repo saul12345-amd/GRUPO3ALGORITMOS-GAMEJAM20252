@@ -29,9 +29,9 @@ void Rombo::dibujar(Graphics^ graphics) {
         SolidBrush^ brushTexto = gcnew SolidBrush(Color::Black);
         //MeasureString: mide el texto y devuelve sus dimensiones antes de dibujarl
         SizeF tamanioTexto = graphics->MeasureString(texto, font);
-		//2.0f asegura division decimal precisa. La f evita conversiones innecesarias a double
+        //2.0f asegura division decimal precisa. La f evita conversiones innecesarias a double
         float centroX = x + ancho / 2.0f - tamanioTexto.Width / 2;
         float centroY = y + alto / 2.0f - tamanioTexto.Height / 2;
-        graphics->DrawString(texto, font, brushTexto, centroX, centroY);        
+        graphics->DrawString(texto, font, brushTexto, centroX, centroY);
     }
 }

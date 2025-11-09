@@ -2,6 +2,12 @@
 #include "Circulo.h"
 #include "Triangulo.h"
 #include "Rectangulo.h"
+#include "Heptagono.h"
+#include "Pentagono.h"
+#include "Hexagono.h"
+#include "Octogono.h"
+#include "Eneagono.h"
+#include "Decagono.h"
 #include "Rombo.h"
 #include <vector>
 using namespace System;
