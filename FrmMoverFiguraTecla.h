@@ -25,6 +25,7 @@ namespace Semana10 {
 			velocidad = 5;
 			cambioTramo = false;
 			colorFigura = juegoService->getFiguraActual()->getColor();
+			tiempoRestante = 10;
 		}
 
 	protected:
@@ -42,8 +43,10 @@ namespace Semana10 {
 		int velocidad;
 		bool cambioTramo;
 		bool automatico;
+		int tiempoRestante;
 		System::Windows::Forms::Panel^ panelDibujo;
 		System::Windows::Forms::Timer^ timer;
+		System::Windows::Forms::Timer^ timerCronometro;
 	private: System::Windows::Forms::Panel^ MIniMapa;
 	private: System::Windows::Forms::Panel^ panel2;
 	private: System::Windows::Forms::Label^ label3;
@@ -54,6 +57,7 @@ namespace Semana10 {
 	private: System::Windows::Forms::Label^ lblNumero;
 	private: System::Windows::Forms::Label^ lblSumaAngulos;
 	private: System::Windows::Forms::Label^ lblLados;
+	private: System::Windows::Forms::Label^ lblTiempo;
 	private: System::Windows::Forms::Panel^ panelMiniMapa;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label4;
@@ -66,12 +70,14 @@ namespace Semana10 {
 			   this->panelDibujo = (gcnew System::Windows::Forms::Panel());
 			   this->label4 = (gcnew System::Windows::Forms::Label());
 			   this->timer = (gcnew System::Windows::Forms::Timer(this->components));
+			   this->timerCronometro = (gcnew System::Windows::Forms::Timer(this->components));
 			   this->MIniMapa = (gcnew System::Windows::Forms::Panel());
 			   this->panel2 = (gcnew System::Windows::Forms::Panel());
 			   this->label3 = (gcnew System::Windows::Forms::Label());
 			   this->panel1 = (gcnew System::Windows::Forms::Panel());
 			   this->label2 = (gcnew System::Windows::Forms::Label());
 			   this->labelTituloMiniMapa = (gcnew System::Windows::Forms::Label());
+			   this->lblTiempo = (gcnew System::Windows::Forms::Label());
 			   this->lblVelocidad = (gcnew System::Windows::Forms::Label());
 			   this->lblNumero = (gcnew System::Windows::Forms::Label());
 			   this->lblSumaAngulos = (gcnew System::Windows::Forms::Label());
@@ -90,10 +96,9 @@ namespace Semana10 {
 			   this->panelDibujo->BackColor = System::Drawing::Color::WhiteSmoke;
 			   this->panelDibujo->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			   this->panelDibujo->Controls->Add(this->label4);
-			   this->panelDibujo->Location = System::Drawing::Point(22, 25);
-			   this->panelDibujo->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			   this->panelDibujo->Location = System::Drawing::Point(20, 20);
 			   this->panelDibujo->Name = L"panelDibujo";
-			   this->panelDibujo->Size = System::Drawing::Size(1057, 833);
+			   this->panelDibujo->Size = System::Drawing::Size(940, 620);
 			   this->panelDibujo->TabIndex = 0;
 			   this->panelDibujo->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmMoverFiguraTecla::panelDibujo_Paint);
 			   // 
@@ -102,9 +107,9 @@ namespace Semana10 {
 			   this->label4->AutoSize = true;
 			   this->label4->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			   this->label4->ForeColor = System::Drawing::SystemColors::ControlText;
-			   this->label4->Location = System::Drawing::Point(3, 9);
+			   this->label4->Location = System::Drawing::Point(3, 7);
 			   this->label4->Name = L"label4";
-			   this->label4->Size = System::Drawing::Size(67, 20);
+			   this->label4->Size = System::Drawing::Size(57, 16);
 			   this->label4->TabIndex = 2;
 			   this->label4->Text = L"Tramo 1";
 			   // 
@@ -113,6 +118,11 @@ namespace Semana10 {
 			   this->timer->Interval = 30;
 			   this->timer->Tick += gcnew System::EventHandler(this, &FrmMoverFiguraTecla::timer_Tick);
 			   // 
+			   // timerCronometro
+			   // 
+			   this->timerCronometro->Interval = 1000;
+			   this->timerCronometro->Tick += gcnew System::EventHandler(this, &FrmMoverFiguraTecla::timerCronometro_Tick);
+			   // 
 			   // MIniMapa
 			   // 
 			   this->MIniMapa->BackColor = System::Drawing::Color::WhiteSmoke;
@@ -120,15 +130,15 @@ namespace Semana10 {
 			   this->MIniMapa->Controls->Add(this->panel2);
 			   this->MIniMapa->Controls->Add(this->panel1);
 			   this->MIniMapa->Controls->Add(this->labelTituloMiniMapa);
+			   this->MIniMapa->Controls->Add(this->lblTiempo);
 			   this->MIniMapa->Controls->Add(this->lblVelocidad);
 			   this->MIniMapa->Controls->Add(this->lblNumero);
 			   this->MIniMapa->Controls->Add(this->lblSumaAngulos);
 			   this->MIniMapa->Controls->Add(this->lblLados);
 			   this->MIniMapa->Controls->Add(this->panelMiniMapa);
-			   this->MIniMapa->Location = System::Drawing::Point(1080, 25);
-			   this->MIniMapa->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			   this->MIniMapa->Location = System::Drawing::Point(960, 20);
 			   this->MIniMapa->Name = L"MIniMapa";
-			   this->MIniMapa->Size = System::Drawing::Size(453, 774);
+			   this->MIniMapa->Size = System::Drawing::Size(403, 620);
 			   this->MIniMapa->TabIndex = 5;
 			   this->MIniMapa->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmMoverFiguraTecla::panel3_Paint);
 			   // 
@@ -137,18 +147,17 @@ namespace Semana10 {
 			   this->panel2->BackColor = System::Drawing::Color::White;
 			   this->panel2->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			   this->panel2->Controls->Add(this->label3);
-			   this->panel2->Location = System::Drawing::Point(288, 206);
-			   this->panel2->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			   this->panel2->Location = System::Drawing::Point(256, 165);
 			   this->panel2->Name = L"panel2";
-			   this->panel2->Size = System::Drawing::Size(140, 350);
+			   this->panel2->Size = System::Drawing::Size(125, 281);
 			   this->panel2->TabIndex = 8;
 			   // 
 			   // label3
 			   // 
 			   this->label3->AutoSize = true;
-			   this->label3->Location = System::Drawing::Point(3, 11);
+			   this->label3->Location = System::Drawing::Point(3, 9);
 			   this->label3->Name = L"label3";
-			   this->label3->Size = System::Drawing::Size(67, 20);
+			   this->label3->Size = System::Drawing::Size(57, 16);
 			   this->label3->TabIndex = 7;
 			   this->label3->Text = L"Tramo 2";
 			   // 
@@ -157,10 +166,9 @@ namespace Semana10 {
 			   this->panel1->BackColor = System::Drawing::SystemColors::ButtonHighlight;
 			   this->panel1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 			   this->panel1->Controls->Add(this->label2);
-			   this->panel1->Location = System::Drawing::Point(40, 565);
-			   this->panel1->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			   this->panel1->Location = System::Drawing::Point(36, 452);
 			   this->panel1->Name = L"panel1";
-			   this->panel1->Size = System::Drawing::Size(388, 144);
+			   this->panel1->Size = System::Drawing::Size(345, 116);
 			   this->panel1->TabIndex = 9;
 			   this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmMoverFiguraTecla::panel1_Paint_1);
 			   // 
@@ -169,9 +177,9 @@ namespace Semana10 {
 			   this->label2->AutoSize = true;
 			   this->label2->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			   this->label2->ForeColor = System::Drawing::SystemColors::ControlText;
-			   this->label2->Location = System::Drawing::Point(3, 11);
+			   this->label2->Location = System::Drawing::Point(3, 9);
 			   this->label2->Name = L"label2";
-			   this->label2->Size = System::Drawing::Size(67, 20);
+			   this->label2->Size = System::Drawing::Size(57, 16);
 			   this->label2->TabIndex = 1;
 			   this->label2->Text = L"Tramo 1";
 			   // 
@@ -179,19 +187,30 @@ namespace Semana10 {
 			   // 
 			   this->labelTituloMiniMapa->AutoSize = true;
 			   this->labelTituloMiniMapa->Font = (gcnew System::Drawing::Font(L"Segoe UI", 11, System::Drawing::FontStyle::Bold));
-			   this->labelTituloMiniMapa->Location = System::Drawing::Point(9, 9);
+			   this->labelTituloMiniMapa->Location = System::Drawing::Point(8, 7);
 			   this->labelTituloMiniMapa->Name = L"labelTituloMiniMapa";
-			   this->labelTituloMiniMapa->Size = System::Drawing::Size(124, 30);
+			   this->labelTituloMiniMapa->Size = System::Drawing::Size(107, 25);
 			   this->labelTituloMiniMapa->TabIndex = 14;
 			   this->labelTituloMiniMapa->Text = L"Mini Mapa";
+			   // 
+			   // lblTiempo
+			   // 
+			   this->lblTiempo->AutoSize = true;
+			   this->lblTiempo->Font = (gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Bold));
+			   this->lblTiempo->ForeColor = System::Drawing::Color::Red;
+			   this->lblTiempo->Location = System::Drawing::Point(32, 380);
+			   this->lblTiempo->Name = L"lblTiempo";
+			   this->lblTiempo->Size = System::Drawing::Size(150, 32);
+			   this->lblTiempo->TabIndex = 15;
+			   this->lblTiempo->Text = L"Tiempo: 10s";
 			   // 
 			   // lblVelocidad
 			   // 
 			   this->lblVelocidad->AutoSize = true;
 			   this->lblVelocidad->Font = (gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Bold));
-			   this->lblVelocidad->Location = System::Drawing::Point(36, 425);
+			   this->lblVelocidad->Location = System::Drawing::Point(32, 340);
 			   this->lblVelocidad->Name = L"lblVelocidad";
-			   this->lblVelocidad->Size = System::Drawing::Size(127, 28);
+			   this->lblVelocidad->Size = System::Drawing::Size(108, 23);
 			   this->lblVelocidad->TabIndex = 13;
 			   this->lblVelocidad->Text = L"Velocidad: 5";
 			   // 
@@ -199,9 +218,9 @@ namespace Semana10 {
 			   // 
 			   this->lblNumero->AutoSize = true;
 			   this->lblNumero->Font = (gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Bold));
-			   this->lblNumero->Location = System::Drawing::Point(36, 388);
+			   this->lblNumero->Location = System::Drawing::Point(32, 310);
 			   this->lblNumero->Name = L"lblNumero";
-			   this->lblNumero->Size = System::Drawing::Size(112, 28);
+			   this->lblNumero->Size = System::Drawing::Size(95, 23);
 			   this->lblNumero->TabIndex = 12;
 			   this->lblNumero->Text = L"Numero: 0";
 			   // 
@@ -209,9 +228,9 @@ namespace Semana10 {
 			   // 
 			   this->lblSumaAngulos->AutoSize = true;
 			   this->lblSumaAngulos->Font = (gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Bold));
-			   this->lblSumaAngulos->Location = System::Drawing::Point(36, 350);
+			   this->lblSumaAngulos->Location = System::Drawing::Point(32, 280);
 			   this->lblSumaAngulos->Name = L"lblSumaAngulos";
-			   this->lblSumaAngulos->Size = System::Drawing::Size(228, 28);
+			   this->lblSumaAngulos->Size = System::Drawing::Size(193, 23);
 			   this->lblSumaAngulos->TabIndex = 11;
 			   this->lblSumaAngulos->Text = L"Suma de angulos: 180°";
 			   // 
@@ -219,9 +238,9 @@ namespace Semana10 {
 			   // 
 			   this->lblLados->AutoSize = true;
 			   this->lblLados->Font = (gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Bold));
-			   this->lblLados->Location = System::Drawing::Point(36, 312);
+			   this->lblLados->Location = System::Drawing::Point(32, 250);
 			   this->lblLados->Name = L"lblLados";
-			   this->lblLados->Size = System::Drawing::Size(89, 28);
+			   this->lblLados->Size = System::Drawing::Size(76, 23);
 			   this->lblLados->TabIndex = 10;
 			   this->lblLados->Text = L"Lados: 3";
 			   // 
@@ -231,35 +250,32 @@ namespace Semana10 {
 			   this->panelMiniMapa->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			   this->panelMiniMapa->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			   this->panelMiniMapa->Controls->Add(this->label1);
-			   this->panelMiniMapa->Location = System::Drawing::Point(40, 46);
-			   this->panelMiniMapa->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			   this->panelMiniMapa->Location = System::Drawing::Point(36, 37);
 			   this->panelMiniMapa->Name = L"panelMiniMapa";
-			   this->panelMiniMapa->Size = System::Drawing::Size(388, 152);
+			   this->panelMiniMapa->Size = System::Drawing::Size(345, 122);
 			   this->panelMiniMapa->TabIndex = 7;
 			   this->panelMiniMapa->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmMoverFiguraTecla::panelMiniMapa_Paint_1);
 			   // 
 			   // label1
 			   // 
 			   this->label1->AutoSize = true;
-			   this->label1->Location = System::Drawing::Point(4, 5);
+			   this->label1->Location = System::Drawing::Point(4, 4);
 			   this->label1->Name = L"label1";
-			   this->label1->Size = System::Drawing::Size(67, 20);
+			   this->label1->Size = System::Drawing::Size(57, 16);
 			   this->label1->TabIndex = 0;
 			   this->label1->Text = L"Tramo 3";
 			   // 
 			   // FrmMoverFiguraTecla
 			   // 
-			   this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			   this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			   this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			   this->ClientSize = System::Drawing::Size(1536, 894);
+			   this->ClientSize = System::Drawing::Size(1365, 715);
 			   this->Controls->Add(this->MIniMapa);
 			   this->Controls->Add(this->panelDibujo);
 			   this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			   this->KeyPreview = true;
-			   this->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			   this->Name = L"FrmMoverFiguraTecla";
 			   this->Text = L"Mover Figuras con Teclas";
-			   this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			   this->Load += gcnew System::EventHandler(this, &FrmMoverFiguraTecla::FrmMoverFiguraTecla_Load);
 			   this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &FrmMoverFiguraTecla::FrmMoverFiguraTecla_KeyDown);
 			   this->panelDibujo->ResumeLayout(false);
@@ -273,72 +289,91 @@ namespace Semana10 {
 			   this->panelMiniMapa->ResumeLayout(false);
 			   this->panelMiniMapa->PerformLayout();
 			   this->ResumeLayout(false);
-
 		   }
 #pragma endregion
-		   public: void setModoAutomatico(bool activo) {
-			   juegoService->setModoAutomatico(activo);
-		   }
+
+	public: void setModoAutomatico(bool activo) {
+		juegoService->setModoAutomatico(activo);
+	}
 
 	private:
 		System::Void FrmMoverFiguraTecla_Load(System::Object^ sender, System::EventArgs^ e) {
 			timer->Start();
+			timerCronometro->Start();
+		}
+
+		System::Void timerCronometro_Tick(System::Object^ sender, System::EventArgs^ e) {
+			tiempoRestante--;
+			lblTiempo->Text = "Tiempo: " + tiempoRestante.ToString() + "s";
+
+			if (tiempoRestante <= 3) {
+				lblTiempo->ForeColor = System::Drawing::Color::DarkRed;
+			}
+			else if (tiempoRestante <= 5) {
+				lblTiempo->ForeColor = System::Drawing::Color::Orange;
+			}
+
+			if (tiempoRestante <= 0) {
+				timer->Stop();
+				timerCronometro->Stop();
+
+				MessageBox::Show("¡Tiempo agotado! Has perdido el juego.",
+					"Game Over",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error);
+
+				this->Close();
+			}
 		}
 
 		System::Void timer_Tick(System::Object^ sender, System::EventArgs^ e) {
 			BufferedGraphicsContext^ contexto = BufferedGraphicsManager::Current;
 			BufferedGraphics^ buffer = contexto->Allocate(graphics, panelDibujo->ClientRectangle);
 
-			try {
-				buffer->Graphics->Clear(Color::LightBlue);
+			buffer->Graphics->Clear(Color::LightBlue);
 
-				if (juegoService->getFiguraActual()->getLados() == 5 && !cambioTramo) {
-					cambioTramo = true;
-					timer->Stop();
+			if (juegoService->getFiguraActual()->getLados() == 5 && !cambioTramo) {
+				cambioTramo = true;
+				timer->Stop();
+				timerCronometro->Stop();
 
-					// Obtener la figura actual
-					Figura* figuraActual = juegoService->getFiguraActual();
+				Figura* figuraActual = juegoService->getFiguraActual();
+				figuraActual->setLados(5);
+				figuraActual->setColor(juegoService->getFiguraActual()->getColor());
 
-					// ✅ Resetear a 3 lados para el siguiente tramo
-					figuraActual->setLados(5);
-					figuraActual->setColor(juegoService->getFiguraActual()->getColor());
-					// Crear el nuevo formulario
-					FrmFiguraTramo2^ frmTramo2 = gcnew FrmFiguraTramo2(figuraActual, automatico, colorFigura);
-					frmTramo2->Show();
+				FrmFiguraTramo2^ frmTramo2 = gcnew FrmFiguraTramo2(figuraActual, automatico, colorFigura);
+				frmTramo2->Show();
 
-					// Cerrar el formulario actual
-					this->Close();
+				this->Close();
 
-					delete buffer;
-					return;
-				}
-
-				juegoService->moverFiguras();
-				juegoService->dibujar(buffer->Graphics);
-				juegoService->verificarColisiones();
-				juegoService->generarFiguras();
-				juegoService->actualizarMovimientoAutomatico();
-
-				buffer->Render(graphics);
-
-				if (juegoService->getFiguraActual() != nullptr) {
-					Figura* jugador = juegoService->getFiguraActual();
-					int lados = jugador->getLados();
-					lblLados->Text = "Lados: " + lados.ToString();
-
-					int sumaAng = (lados - 2) * 180;
-					lblSumaAngulos->Text = "Suma de angulos: " + sumaAng.ToString();
-
-					lblNumero->Text = "Numero: " + jugador->getNumero().ToString();
-				}
-
-				lblVelocidad->Text = "Velocidad: " + velocidad.ToString();
-				panelMiniMapa->Invalidate();
-				panel1->Invalidate();
-			}
-			finally {
 				delete buffer;
+				return;
 			}
+
+			juegoService->moverFiguras();
+			juegoService->dibujar(buffer->Graphics);
+			juegoService->verificarColisiones();
+			juegoService->generarFiguras();
+			juegoService->actualizarMovimientoAutomatico();
+
+			buffer->Render(graphics);
+
+			if (juegoService->getFiguraActual() != nullptr) {
+				Figura* jugador = juegoService->getFiguraActual();
+				int lados = jugador->getLados();
+				lblLados->Text = "Lados: " + lados.ToString();
+
+				int sumaAng = (lados - 2) * 180;
+				lblSumaAngulos->Text = "Suma de angulos: " + sumaAng.ToString();
+
+				lblNumero->Text = "Numero: " + jugador->getNumero().ToString();
+			}
+
+			lblVelocidad->Text = "Velocidad: " + velocidad.ToString();
+			panelMiniMapa->Invalidate();
+			panel1->Invalidate();
+
+			delete buffer;
 		}
 
 		System::Void panelMiniMapa_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
@@ -350,7 +385,7 @@ namespace Semana10 {
 		}
 
 		System::Void FrmMoverFiguraTecla_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-			if (!juegoService->getAutomatico()){
+			if (!juegoService->getAutomatico()) {
 				if (e->KeyCode == Keys::W) juegoService->moverFiguraActual(0, -velocidad);
 				else if (e->KeyCode == Keys::S) juegoService->moverFiguraActual(0, velocidad);
 				else if (e->KeyCode == Keys::A) juegoService->moverFiguraActual(-velocidad, 0);

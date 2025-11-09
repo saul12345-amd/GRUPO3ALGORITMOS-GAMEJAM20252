@@ -19,25 +19,24 @@ namespace Semana10 {
 		{
 			InitializeComponent();
 
-			// Crear el JuegoService
 			juegoService = new JuegoService(panelDibujo->Width, panelDibujo->Height);
 			juegoService->setModoAutomatico(automatico);
 			this->automatico = automatico;
-			// Guardar datos de la figura
+
 			int ancho = figuraActual->getAncho();
 			int alto = figuraActual->getAlto();
 			int numero = figuraActual->getNumero();
 			colorFigura = figuraActual->getColor();
-			// ✅ Cambiar al nivel 2 primero (esto posiciona correctamente)
+
 			juegoService->cambiarNivel(2);
-
 			juegoService->getFiguraActual()->setLados(5);
-
 			juegoService->getFiguraActual()->setNumero(numero);
 			juegoService->getFiguraActual()->setColor(colorFigura);
+
 			graphics = panelDibujo->CreateGraphics();
 			velocidad = 7;
 			cambioTramo = false;
+			tiempoRestante = 10;
 		}
 
 	protected:
@@ -55,9 +54,11 @@ namespace Semana10 {
 		int velocidad;
 		bool cambioTramo;
 		bool automatico;
+		int tiempoRestante;
 
 		System::Windows::Forms::Panel^ panelDibujo;
 		System::Windows::Forms::Timer^ timer;
+		System::Windows::Forms::Timer^ timerCronometro;
 	private: System::Windows::Forms::Panel^ MIniMapa;
 	private: System::Windows::Forms::Panel^ panel2;
 	private: System::Windows::Forms::Label^ label3;
@@ -68,6 +69,7 @@ namespace Semana10 {
 	private: System::Windows::Forms::Label^ lblNumero;
 	private: System::Windows::Forms::Label^ lblSumaAngulos;
 	private: System::Windows::Forms::Label^ lblLados;
+	private: System::Windows::Forms::Label^ lblTiempo;
 	private: System::Windows::Forms::Panel^ panelMiniMapa;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label4;
@@ -80,12 +82,14 @@ namespace Semana10 {
 			   this->panelDibujo = (gcnew System::Windows::Forms::Panel());
 			   this->label4 = (gcnew System::Windows::Forms::Label());
 			   this->timer = (gcnew System::Windows::Forms::Timer(this->components));
+			   this->timerCronometro = (gcnew System::Windows::Forms::Timer(this->components));
 			   this->MIniMapa = (gcnew System::Windows::Forms::Panel());
 			   this->panel2 = (gcnew System::Windows::Forms::Panel());
 			   this->label3 = (gcnew System::Windows::Forms::Label());
 			   this->panel1 = (gcnew System::Windows::Forms::Panel());
 			   this->label2 = (gcnew System::Windows::Forms::Label());
 			   this->labelTituloMiniMapa = (gcnew System::Windows::Forms::Label());
+			   this->lblTiempo = (gcnew System::Windows::Forms::Label());
 			   this->lblVelocidad = (gcnew System::Windows::Forms::Label());
 			   this->lblNumero = (gcnew System::Windows::Forms::Label());
 			   this->lblSumaAngulos = (gcnew System::Windows::Forms::Label());
@@ -107,7 +111,7 @@ namespace Semana10 {
 			   this->panelDibujo->Location = System::Drawing::Point(8, 25);
 			   this->panelDibujo->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			   this->panelDibujo->Name = L"panelDibujo";
-			   this->panelDibujo->Size = System::Drawing::Size(1057, 869);
+			   this->panelDibujo->Size = System::Drawing::Size(1057, 774);
 			   this->panelDibujo->TabIndex = 0;
 			   this->panelDibujo->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmFiguraTramo2::panelDibujo_Paint);
 			   // 
@@ -127,6 +131,11 @@ namespace Semana10 {
 			   this->timer->Interval = 30;
 			   this->timer->Tick += gcnew System::EventHandler(this, &FrmFiguraTramo2::timer_Tick);
 			   // 
+			   // timerCronometro
+			   // 
+			   this->timerCronometro->Interval = 1000;
+			   this->timerCronometro->Tick += gcnew System::EventHandler(this, &FrmFiguraTramo2::timerCronometro_Tick);
+			   // 
 			   // MIniMapa
 			   // 
 			   this->MIniMapa->BackColor = System::Drawing::Color::WhiteSmoke;
@@ -134,6 +143,7 @@ namespace Semana10 {
 			   this->MIniMapa->Controls->Add(this->panel2);
 			   this->MIniMapa->Controls->Add(this->panel1);
 			   this->MIniMapa->Controls->Add(this->labelTituloMiniMapa);
+			   this->MIniMapa->Controls->Add(this->lblTiempo);
 			   this->MIniMapa->Controls->Add(this->lblVelocidad);
 			   this->MIniMapa->Controls->Add(this->lblNumero);
 			   this->MIniMapa->Controls->Add(this->lblSumaAngulos);
@@ -199,6 +209,17 @@ namespace Semana10 {
 			   this->labelTituloMiniMapa->Size = System::Drawing::Size(124, 30);
 			   this->labelTituloMiniMapa->TabIndex = 14;
 			   this->labelTituloMiniMapa->Text = L"Mini Mapa";
+			   // 
+			   // lblTiempo
+			   // 
+			   this->lblTiempo->AutoSize = true;
+			   this->lblTiempo->Font = (gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Bold));
+			   this->lblTiempo->ForeColor = System::Drawing::Color::Red;
+			   this->lblTiempo->Location = System::Drawing::Point(36, 470);
+			   this->lblTiempo->Name = L"lblTiempo";
+			   this->lblTiempo->Size = System::Drawing::Size(150, 32);
+			   this->lblTiempo->TabIndex = 15;
+			   this->lblTiempo->Text = L"Tiempo: 10s";
 			   // 
 			   // lblVelocidad
 			   // 
@@ -288,13 +309,37 @@ namespace Semana10 {
 			   this->panelMiniMapa->ResumeLayout(false);
 			   this->panelMiniMapa->PerformLayout();
 			   this->ResumeLayout(false);
-
 		   }
 #pragma endregion
 
 	private:
 		System::Void FrmFiguraTramo2_Load(System::Object^ sender, System::EventArgs^ e) {
 			timer->Start();
+			timerCronometro->Start();
+		}
+
+		System::Void timerCronometro_Tick(System::Object^ sender, System::EventArgs^ e) {
+			tiempoRestante--;
+			lblTiempo->Text = "Tiempo: " + tiempoRestante.ToString() + "s";
+
+			if (tiempoRestante <= 3) {
+				lblTiempo->ForeColor = System::Drawing::Color::DarkRed;
+			}
+			else if (tiempoRestante <= 5) {
+				lblTiempo->ForeColor = System::Drawing::Color::Orange;
+			}
+
+			if (tiempoRestante <= 0) {
+				timer->Stop();
+				timerCronometro->Stop();
+
+				MessageBox::Show("¡Tiempo agotado! Has perdido el juego.",
+					"Game Over",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error);
+
+				this->Close();
+			}
 		}
 
 		System::Void timer_Tick(System::Object^ sender, System::EventArgs^ e) {
@@ -302,21 +347,17 @@ namespace Semana10 {
 			BufferedGraphics^ buffer = contexto->Allocate(graphics, panelDibujo->ClientRectangle);
 			buffer->Graphics->Clear(Color::FromArgb(220, 240, 220));
 
-			// ✅ Cambiar al Tramo 3 cuando llegue a 8 lados
 			if (juegoService->getFiguraActual()->getLados() >= 7 && !cambioTramo) {
 				cambioTramo = true;
 				timer->Stop();
+				timerCronometro->Stop();
 
-				// Obtener la figura actual
 				Figura* figuraActual = juegoService->getFiguraActual();
-
-				// ✅ Resetear a 3 lados para el siguiente tramo
 				figuraActual->setLados(7);
-				// Crear el nuevo formulario
+
 				FrmFiguraTramo3^ frmTramo3 = gcnew FrmFiguraTramo3(figuraActual, automatico, colorFigura);
 				frmTramo3->Show();
 
-				// Cerrar el formulario actual
 				this->Close();
 
 				delete buffer;
@@ -332,7 +373,6 @@ namespace Semana10 {
 			buffer->Render(graphics);
 			delete buffer;
 
-			// Actualizar labels
 			if (juegoService->getFiguraActual() != nullptr) {
 				Figura* jugador = juegoService->getFiguraActual();
 				int lados = jugador->getLados();
@@ -377,48 +417,42 @@ namespace Semana10 {
 	}
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {}
 	private: System::Void label2_Click(System::Object^ sender, System::EventArgs^ e) {}
-	private: System::Void label2_Click_1(System::Object^ sender, System::EventArgs^ e) {	}
-    private: System::Void panel2_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-	   Graphics^ g = e->Graphics;
+	private: System::Void label2_Click_1(System::Object^ sender, System::EventArgs^ e) {}
+	private: System::Void panel2_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		Graphics^ g = e->Graphics;
+		g->Clear(Color::FromArgb(220, 240, 220));
 
-	   // Fondo verde claro para el tramo 2
-	   g->Clear(Color::FromArgb(220, 240, 220));
+		if (juegoService == nullptr || juegoService->getFiguraActual() == nullptr)
+			return;
 
-	   if (juegoService == nullptr || juegoService->getFiguraActual() == nullptr)
-		   return;
+		Figura* jugador = juegoService->getFiguraActual();
+		int diametro = 12;
 
-	   Figura* jugador = juegoService->getFiguraActual();
-	   int diametro = 12;
+		int panelWidth = panel2->Width;
+		int panelHeight = panel2->Height;
+		int maxX = panelDibujo->Width;
+		int maxY = panelDibujo->Height;
 
-	   // ✅ Usar las dimensiones correctas del panel2
-	   int panelWidth = panel2->Width;
-	   int panelHeight = panel2->Height;
-	   int maxX = panelDibujo->Width;
-	   int maxY = panelDibujo->Height;
+		float relacionX = (float)jugador->getX() / (float)maxX;
+		float relacionY = (float)jugador->getY() / (float)maxY;
 
-	   // ✅ Escalar la posición del jugador al tamaño del panel2
-	   float relacionX = (float)jugador->getX() / (float)maxX;
-	   float relacionY = (float)jugador->getY() / (float)maxY;
+		int x = (int)(panelWidth * relacionX);
+		int y = (int)(panelHeight * relacionY);
 
-	   int x = (int)(panelWidth * relacionX);
-	   int y = (int)(panelHeight * relacionY);
+		if (x < 0) x = 0;
+		if (x + diametro > panelWidth) x = panelWidth - diametro;
+		if (y < 0) y = 0;
+		if (y + diametro > panelHeight) y = panelHeight - diametro;
 
-	   // Evitar que se salga del borde del panel
-	   if (x < 0) x = 0;
-	   if (x + diametro > panelWidth) x = panelWidth - diametro;
-	   if (y < 0) y = 0;
-	   if (y + diametro > panelHeight) y = panelHeight - diametro;
+		SolidBrush^ brocha = gcnew SolidBrush(juegoService->getFiguraActual()->getColor());
+		Pen^ borde = gcnew Pen(Color::Black, 1);
 
-	   // Dibujar el círculo con el color de la figura
-	   SolidBrush^ brocha = gcnew SolidBrush(juegoService->getFiguraActual()->getColor());
-	   Pen^ borde = gcnew Pen(Color::Black, 1);
+		g->FillEllipse(brocha, x, y, diametro, diametro);
+		g->DrawEllipse(borde, x, y, diametro, diametro);
 
-	   g->FillEllipse(brocha, x, y, diametro, diametro);
-	   g->DrawEllipse(borde, x, y, diametro, diametro);
-
-	   delete brocha;
-			   delete borde;
-		   }
+		delete brocha;
+		delete borde;
+	}
 	private: System::Void panel3_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		Graphics^ g = e->Graphics;
 		int diametro = 15;

@@ -218,7 +218,18 @@ void JuegoService::moverFiguras() {
         }
     }
 }
+bool JuegoService::verificaSiPerdio() {
+    int ladosActuales = FiguraActual->getLados();
+    if (ladosActuales < 3) {
+        return true;
+    }
 
+    if(FiguraActual->getNumero() < 0) {
+        return true;
+	}
+
+    return false;
+}
 void JuegoService::verificarColisiones() {
     for (int i = 0; i < figurasLanzadas.size(); i++) {
         Figura* figLanzada = figurasLanzadas[i];
@@ -246,6 +257,7 @@ void JuegoService::verificarColisiones() {
             }
             else {
                 nuevosLados--;
+                //verificarColisiones();
                 if (nuevosLados < 3) nuevosLados = 3;
                 numeroJugador -= numeroLanzado;
                 if (numeroJugador < 0) numeroJugador = 0;

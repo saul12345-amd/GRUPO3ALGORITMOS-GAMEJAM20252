@@ -38,7 +38,7 @@ public:
     //automatico:
     void setModoAutomatico(bool activo);
     void actualizarMovimientoAutomatico();
-
+    bool verificaSiPerdio();
     // 🔹 Métodos para niveles
     int getNivel();
     int getPuntaje();

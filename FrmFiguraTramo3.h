@@ -18,21 +18,21 @@ namespace Semana10 {
 		{
 			InitializeComponent();
 
-			// Crear el JuegoService
 			juegoService = new JuegoService(panelDibujo->Width, panelDibujo->Height);
 
-			// Guardar datos de la figura
 			int numero = figuraActual->getNumero();
 			juegoService->setModoAutomatico(automatico);
 			this->automatico = automatico;
-			 colorFigura = figuraActual->getColor();
-			// ✅ Cambiar al nivel 3 primero
+			colorFigura = figuraActual->getColor();
+
 			juegoService->cambiarNivel(3);
 			juegoService->getFiguraActual()->setLados(7);
 			juegoService->getFiguraActual()->setNumero(numero);
 			juegoService->getFiguraActual()->setColor(colorFigura);
+
 			graphics = panelDibujo->CreateGraphics();
 			velocidad = 9;
+			tiempoRestante = 10;
 		}
 
 	protected:
@@ -48,8 +48,10 @@ namespace Semana10 {
 		Graphics^ graphics;
 		int velocidad;
 		int automatico;
+		int tiempoRestante;
 		System::Windows::Forms::Panel^ panelDibujo;
 		System::Windows::Forms::Timer^ timer;
+		System::Windows::Forms::Timer^ timerCronometro;
 	private: System::Windows::Forms::Panel^ MIniMapa;
 	private: System::Windows::Forms::Panel^ panel2;
 	private: System::Windows::Forms::Label^ label3;
@@ -60,6 +62,7 @@ namespace Semana10 {
 	private: System::Windows::Forms::Label^ lblNumero;
 	private: System::Windows::Forms::Label^ lblSumaAngulos;
 	private: System::Windows::Forms::Label^ lblLados;
+	private: System::Windows::Forms::Label^ lblTiempo;
 	private: System::Windows::Forms::Panel^ panelMiniMapa;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label4;
@@ -72,12 +75,14 @@ namespace Semana10 {
 			   this->panelDibujo = (gcnew System::Windows::Forms::Panel());
 			   this->label4 = (gcnew System::Windows::Forms::Label());
 			   this->timer = (gcnew System::Windows::Forms::Timer(this->components));
+			   this->timerCronometro = (gcnew System::Windows::Forms::Timer(this->components));
 			   this->MIniMapa = (gcnew System::Windows::Forms::Panel());
 			   this->panel2 = (gcnew System::Windows::Forms::Panel());
 			   this->label3 = (gcnew System::Windows::Forms::Label());
 			   this->panel1 = (gcnew System::Windows::Forms::Panel());
 			   this->label2 = (gcnew System::Windows::Forms::Label());
 			   this->labelTituloMiniMapa = (gcnew System::Windows::Forms::Label());
+			   this->lblTiempo = (gcnew System::Windows::Forms::Label());
 			   this->lblVelocidad = (gcnew System::Windows::Forms::Label());
 			   this->lblNumero = (gcnew System::Windows::Forms::Label());
 			   this->lblSumaAngulos = (gcnew System::Windows::Forms::Label());
@@ -99,7 +104,7 @@ namespace Semana10 {
 			   this->panelDibujo->Location = System::Drawing::Point(8, 25);
 			   this->panelDibujo->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
 			   this->panelDibujo->Name = L"panelDibujo";
-			   this->panelDibujo->Size = System::Drawing::Size(1057, 856);
+			   this->panelDibujo->Size = System::Drawing::Size(1057, 774);
 			   this->panelDibujo->TabIndex = 0;
 			   this->panelDibujo->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmFiguraTramo3::panelDibujo_Paint);
 			   // 
@@ -119,6 +124,11 @@ namespace Semana10 {
 			   this->timer->Interval = 30;
 			   this->timer->Tick += gcnew System::EventHandler(this, &FrmFiguraTramo3::timer_Tick);
 			   // 
+			   // timerCronometro
+			   // 
+			   this->timerCronometro->Interval = 1000;
+			   this->timerCronometro->Tick += gcnew System::EventHandler(this, &FrmFiguraTramo3::timerCronometro_Tick);
+			   // 
 			   // MIniMapa
 			   // 
 			   this->MIniMapa->BackColor = System::Drawing::Color::WhiteSmoke;
@@ -126,6 +136,7 @@ namespace Semana10 {
 			   this->MIniMapa->Controls->Add(this->panel2);
 			   this->MIniMapa->Controls->Add(this->panel1);
 			   this->MIniMapa->Controls->Add(this->labelTituloMiniMapa);
+			   this->MIniMapa->Controls->Add(this->lblTiempo);
 			   this->MIniMapa->Controls->Add(this->lblVelocidad);
 			   this->MIniMapa->Controls->Add(this->lblNumero);
 			   this->MIniMapa->Controls->Add(this->lblSumaAngulos);
@@ -191,6 +202,17 @@ namespace Semana10 {
 			   this->labelTituloMiniMapa->Size = System::Drawing::Size(124, 30);
 			   this->labelTituloMiniMapa->TabIndex = 14;
 			   this->labelTituloMiniMapa->Text = L"Mini Mapa";
+			   // 
+			   // lblTiempo
+			   // 
+			   this->lblTiempo->AutoSize = true;
+			   this->lblTiempo->Font = (gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Bold));
+			   this->lblTiempo->ForeColor = System::Drawing::Color::Red;
+			   this->lblTiempo->Location = System::Drawing::Point(36, 470);
+			   this->lblTiempo->Name = L"lblTiempo";
+			   this->lblTiempo->Size = System::Drawing::Size(150, 32);
+			   this->lblTiempo->TabIndex = 15;
+			   this->lblTiempo->Text = L"Tiempo: 10s";
 			   // 
 			   // lblVelocidad
 			   // 
@@ -280,13 +302,37 @@ namespace Semana10 {
 			   this->panelMiniMapa->ResumeLayout(false);
 			   this->panelMiniMapa->PerformLayout();
 			   this->ResumeLayout(false);
-
 		   }
 #pragma endregion
 
 	private:
 		System::Void FrmFiguraTramo3_Load(System::Object^ sender, System::EventArgs^ e) {
 			timer->Start();
+			timerCronometro->Start();
+		}
+
+		System::Void timerCronometro_Tick(System::Object^ sender, System::EventArgs^ e) {
+			tiempoRestante--;
+			lblTiempo->Text = "Tiempo: " + tiempoRestante.ToString() + "s";
+
+			if (tiempoRestante <= 3) {
+				lblTiempo->ForeColor = System::Drawing::Color::DarkRed;
+			}
+			else if (tiempoRestante <= 5) {
+				lblTiempo->ForeColor = System::Drawing::Color::Orange;
+			}
+
+			if (tiempoRestante <= 0) {
+				timer->Stop();
+				timerCronometro->Stop();
+
+				MessageBox::Show("¡Tiempo agotado! Has perdido el juego.",
+					"Game Over",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error);
+
+				this->Close();
+			}
 		}
 
 		System::Void timer_Tick(System::Object^ sender, System::EventArgs^ e) {
@@ -294,54 +340,21 @@ namespace Semana10 {
 			BufferedGraphics^ buffer = contexto->Allocate(graphics, panelDibujo->ClientRectangle);
 			buffer->Graphics->Clear(Color::FromArgb(255, 229, 217));
 
-			// ✅ Cuando llega a 10 lados (decágono)
 			if (juegoService->getFiguraActual()->getLados() >= 10) {
 				timer->Stop();
+				timerCronometro->Stop();
 
-				// Dibuja el decágono final
 				juegoService->dibujar(buffer->Graphics);
-
-				// 🏆 Mostrar "YOU WIN" en grande
-				System::Drawing::Font^ fuente = gcnew System::Drawing::Font(
-					"Segoe UI", 72, FontStyle::Bold
-				);
-				System::Drawing::StringFormat^ formato = gcnew System::Drawing::StringFormat();
-				formato->Alignment = StringAlignment::Center;
-				formato->LineAlignment = StringAlignment::Center;
-
-				buffer->Graphics->DrawString(
-					"YOU WIN!",
-					fuente,
-					Brushes::Gold,
-					RectangleF(0, 0, panelDibujo->Width, panelDibujo->Height),
-					formato
-				);
-
-				// Agrega borde de texto (efecto sombra)
-				buffer->Graphics->DrawString(
-					"YOU WIN!",
-					fuente,
-					Brushes::Black,
-					RectangleF(5, 5, panelDibujo->Width, panelDibujo->Height),
-					formato
-				);
-
-				buffer->Render(graphics);
-				delete fuente;
-				delete formato;
-				delete buffer;
-
-				// Mostrar mensaje final
 				MessageBox::Show("¡Felicidades! Has completado todos los tramos del juego.",
-					"YOU WIN",
+					"Juego Completado",
 					MessageBoxButtons::OK,
 					MessageBoxIcon::Information);
 
+				delete buffer;
 				this->Close();
 				return;
 			}
 
-			// Movimiento y dibujo normal del juego
 			juegoService->moverFiguras();
 			juegoService->dibujar(buffer->Graphics);
 			juegoService->verificarColisiones();
@@ -351,7 +364,6 @@ namespace Semana10 {
 			buffer->Render(graphics);
 			delete buffer;
 
-			// Actualizar etiquetas
 			if (juegoService->getFiguraActual() != nullptr) {
 				Figura* jugador = juegoService->getFiguraActual();
 				int lados = jugador->getLados();
