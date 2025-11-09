@@ -53,7 +53,11 @@ void JuegoService::generarFiguras() {
             {255, 255, 0}    // Amarillo
         };
 
-        // Desordenar los tipos manualmente usando rand()
+        // Obtener el color actual (verde del jugador)
+        int rC, gC, bC;
+        FiguraActual->getColor(rC, gC, bC);
+
+        // Desordenar tipos
         for (int i = 0; i < 3; i++) {
             int j = rand() % 3;
             int temp = tiposDisponibles[i];
@@ -61,37 +65,46 @@ void JuegoService::generarFiguras() {
             tiposDisponibles[j] = temp;
         }
 
+        // 🔸 Elegir al azar qué carril tendrá la figura verde
+        int carrilVerde = rand() % 3;
+
         // Generar una figura por cada carril
         for (int i = 0; i < 3; i++) {
             int tipo = tiposDisponibles[i];
 
-            // Evitar repetir el mismo tipo en el mismo carril
+            // Evitar repetir tipo en mismo carril
             if (tipo == tipoAnteriorCarril[i]) {
                 tipo = (tipo + 1 + rand() % 2) % 3;
             }
             tipoAnteriorCarril[i] = tipo;
 
-            int y = (altoCarril * i) + (altoCarril / 2) - 40; // Centrado en carril
+            int y = (altoCarril * i) + (altoCarril / 2) - 40;
             Figura* figura = nullptr;
 
-            // Asignar color según tipo (mismo índice)
-            ColorRGB c = colores[tipo];
+            int r, g, b;
+
+            // 🔸 Si es el carril elegido → color igual al jugador (verde)
+            if (i == carrilVerde) {
+                r = rC; g = gC; b = bC;
+            }
+            else {
+                // 🔸 Elegir un color distinto (azul, rojo o amarillo)
+                ColorRGB c = colores[rand() % 3];
+                r = c.r; g = c.g; b = c.b;
+            }
 
             // Crear figura según tipo
-            if (tipo == 0) {
-                figura = new Triangulo(x, y, 80, 80, c.r, c.g, c.b, true);
-            }
-            else if (tipo == 1) {
-                figura = new Rectangulo(x, y, 80, 80, c.r, c.g, c.b, true);
-            }
-            else if (tipo == 2) {
-                figura = new Rombo(x, y, 80, 80, c.r, c.g, c.b, true);
-            }
+            if (tipo == 0)
+                figura = new Triangulo(x, y, 80, 80, r, g, b, true);
+            else if (tipo == 1)
+                figura = new Rectangulo(x, y, 80, 80, r, g, b, true);
+            else if (tipo == 2)
+                figura = new Rombo(x, y, 80, 80, r, g, b, true);
 
             if (figura != nullptr) {
                 figura->setNumero(rand() % 10 + 1);
                 figura->setSeMueve(true);
-                figura->setDirX(-1); // Hacia la izquierda
+                figura->setDirX(-1);
                 figura->setDirY(0);
                 figurasLanzadas.push_back(figura);
                 limiteFigurasActivas++;
@@ -99,6 +112,8 @@ void JuegoService::generarFiguras() {
         }
     }
 }
+
+
 
 
 // Actualizar figuras
