@@ -1,16 +1,6 @@
-#pragma once
-#include "Circulo.h"
-#include "Triangulo.h"
-#include "Rectangulo.h"
-#include "Heptagono.h"
-#include "Pentagono.h"
-#include "Hexagono.h"
-#include "Octogono.h"
-#include "Eneagono.h"
-#include "Decagono.h"
-#include "Rombo.h"
+﻿#pragma once
+#include "Figura.h"
 #include <vector>
-using namespace System;
 using namespace std;
 using namespace System::Drawing;
 
@@ -18,31 +8,35 @@ class JuegoService {
 private:
     Figura* FiguraActual;
     vector<Figura*> figurasLanzadas;
-    int limiteAncho, limiteAlto;
     int limiteFigurasActivas;
+    int limiteAncho;
+    int limiteAlto;
+
+    // 🔹 Sistema de niveles
+    int nivelActual;
+    int puntaje;
+    int puntajeParaSiguienteNivel;
 
 public:
-    // Inicializaci�n
     JuegoService(int ancho, int alto);
     ~JuegoService();
 
-    // Mover jugador
-    void moverFiguraActual(int,int);
-
-    // Lanzar figuras
+    void moverFiguraActual(int dx, int dy);
     void generarFiguras();
-
-    // Actualizar figuras
     void moverFiguras();
-
-    // Verificar impactos
     void verificarColisiones();
-
-	// Dibujar escena (figuras)
     void dibujar(Graphics^ graphics);
 
-    Figura* getFiguraActual() {
-        return FiguraActual;
-    }
+    // 🔹 Métodos para niveles
+    int getNivel();
+    int getPuntaje();
+    void cambiarNivel(int nivel);
+    void subirNivel();
+    void posicionarFiguraActualSegunNivel();
 
+    // set de copiar figura
+    void setFiguraActual(Figura* s);
+    // 🔹 Getters útiles
+    Figura* getFiguraActual();
+    int getCantidadFigurasLanzadas();
 };

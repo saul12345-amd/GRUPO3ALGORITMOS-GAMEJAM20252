@@ -121,12 +121,15 @@
     <ClCompile Include="Figura.cpp" />
     <ClCompile Include="FigurasService.cpp" />
     <ClCompile Include="FrmFiguras.cpp" />
+    <ClCompile Include="FrmFiguraTramo2.cpp" />
+    <ClCompile Include="FrmFiguraTramo3.cpp" />
     <ClCompile Include="FrmMoverFiguraTecla.cpp" />
     <ClCompile Include="Heptagono.cpp" />
     <ClCompile Include="Hexagono.cpp" />
     <ClCompile Include="JuegoService.cpp" />
     <ClCompile Include="Octogono.cpp" />
     <ClCompile Include="Pentagono.cpp" />
+    <ClCompile Include="Poligono.cpp" />
     <ClCompile Include="Principal.cpp" />
     <ClCompile Include="Rectangulo.cpp" />
     <ClCompile Include="Rombo.cpp" />
@@ -149,6 +152,12 @@
     <ClInclude Include="FrmFiguras.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="FrmFiguraTramo2.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="FrmFiguraTramo3.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="FrmMoverFiguraTecla.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -157,6 +166,7 @@
     <ClInclude Include="JuegoService.h" />
     <ClInclude Include="Octogono.h" />
     <ClInclude Include="Pentagono.h" />
+    <ClInclude Include="Poligono.h" />
     <ClInclude Include="Rectangulo.h" />
     <ClInclude Include="Rombo.h" />
     <ClInclude Include="Triangulo.h" />
@@ -164,6 +174,12 @@
   <ItemGroup>
     <EmbeddedResource Include="FrmFiguras.resx">
       <DependentUpon>FrmFiguras.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFiguraTramo2.resx">
+      <DependentUpon>FrmFiguraTramo2.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFiguraTramo3.resx">
+      <DependentUpon>FrmFiguraTramo3.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMoverFiguraTecla.resx">
       <DependentUpon>FrmMoverFiguraTecla.h</DependentUpon>

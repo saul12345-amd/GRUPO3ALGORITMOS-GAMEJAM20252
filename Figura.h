@@ -37,6 +37,7 @@ public:
     Color getColor();
 
     // Setters
+	void setLados(int lados);
     void setX(int x);
     void setY(int y);
     void setDirX(int dirX);

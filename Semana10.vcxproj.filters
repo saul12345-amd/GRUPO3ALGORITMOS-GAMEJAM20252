@@ -61,6 +61,13 @@
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="Principal.cpp" />
+    <ClCompile Include="FrmFiguraTramo2.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FrmFiguraTramo3.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Poligono.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrmFiguras.h">
@@ -111,5 +118,12 @@
     <ClInclude Include="Decagono.h">
       <Filter>Model</Filter>
     </ClInclude>
+    <ClInclude Include="FrmFiguraTramo2.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrmFiguraTramo3.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Poligono.h" />
   </ItemGroup>
 </Project>
