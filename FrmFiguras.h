@@ -69,10 +69,9 @@ namespace Semana10 {
 			// pictureBox1
 			// 
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(-201, -1);
-			this->pictureBox1->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			this->pictureBox1->Location = System::Drawing::Point(-179, -1);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(1452, 781);
+			this->pictureBox1->Size = System::Drawing::Size(1291, 625);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
@@ -82,12 +81,11 @@ namespace Semana10 {
 			this->btnAutomatico->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->btnAutomatico->Font = (gcnew System::Drawing::Font(L"Microsoft Tai Le", 16.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnAutomatico->Location = System::Drawing::Point(194, 441);
-			this->btnAutomatico->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			this->btnAutomatico->Location = System::Drawing::Point(172, 353);
 			this->btnAutomatico->Name = L"btnAutomatico";
-			this->btnAutomatico->Size = System::Drawing::Size(277, 102);
+			this->btnAutomatico->Size = System::Drawing::Size(246, 82);
 			this->btnAutomatico->TabIndex = 1;
-			this->btnAutomatico->Text = L"AUTOMÁTICO";
+			this->btnAutomatico->Text = L"AUTOMATICO";
 			this->btnAutomatico->UseVisualStyleBackColor = false;
 			this->btnAutomatico->Click += gcnew System::EventHandler(this, &FrmFiguras::btnAutomatico_Click);
 			// 
@@ -96,10 +94,9 @@ namespace Semana10 {
 			this->btnJugador->BackColor = System::Drawing::Color::Lime;
 			this->btnJugador->Font = (gcnew System::Drawing::Font(L"Microsoft Tai Le", 16.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnJugador->Location = System::Drawing::Point(536, 441);
-			this->btnJugador->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			this->btnJugador->Location = System::Drawing::Point(476, 353);
 			this->btnJugador->Name = L"btnJugador";
-			this->btnJugador->Size = System::Drawing::Size(277, 102);
+			this->btnJugador->Size = System::Drawing::Size(246, 82);
 			this->btnJugador->TabIndex = 2;
 			this->btnJugador->Text = L"JUGADOR";
 			this->btnJugador->UseVisualStyleBackColor = false;
@@ -108,10 +105,9 @@ namespace Semana10 {
 			// pictureBox2
 			// 
 			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
-			this->pictureBox2->Location = System::Drawing::Point(-74, -1);
-			this->pictureBox2->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			this->pictureBox2->Location = System::Drawing::Point(-66, -1);
 			this->pictureBox2->Name = L"pictureBox2";
-			this->pictureBox2->Size = System::Drawing::Size(1184, 781);
+			this->pictureBox2->Size = System::Drawing::Size(1052, 625);
 			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pictureBox2->TabIndex = 3;
 			this->pictureBox2->TabStop = false;
@@ -121,10 +117,9 @@ namespace Semana10 {
 			// pictureBox3
 			// 
 			this->pictureBox3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox3.Image")));
-			this->pictureBox3->Location = System::Drawing::Point(325, 129);
-			this->pictureBox3->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			this->pictureBox3->Location = System::Drawing::Point(289, 103);
 			this->pictureBox3->Name = L"pictureBox3";
-			this->pictureBox3->Size = System::Drawing::Size(407, 275);
+			this->pictureBox3->Size = System::Drawing::Size(362, 220);
 			this->pictureBox3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->pictureBox3->TabIndex = 4;
 			this->pictureBox3->TabStop = false;
@@ -132,15 +127,14 @@ namespace Semana10 {
 			// 
 			// FrmFiguras
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1044, 776);
-			this->Controls->Add(this->pictureBox2);
+			this->ClientSize = System::Drawing::Size(928, 621);
 			this->Controls->Add(this->btnJugador);
 			this->Controls->Add(this->btnAutomatico);
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->pictureBox3);
-			this->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+			this->Controls->Add(this->pictureBox2);
 			this->Name = L"FrmFiguras";
 			this->Text = L"Interfaz de Inicio";
 			this->Load += gcnew System::EventHandler(this, &FrmFiguras::FrmFiguras_Load);
