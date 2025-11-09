@@ -116,6 +116,7 @@
   <ItemGroup>
     <ClCompile Include="Casa.cpp" />
     <ClCompile Include="Circulo.cpp" />
+    <ClCompile Include="Corredor.cpp" />
     <ClCompile Include="Cuadrado.cpp" />
     <ClCompile Include="Figura.cpp" />
     <ClCompile Include="FigurasService.cpp" />
@@ -138,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="Casa.h" />
     <ClInclude Include="Circulo.h" />
+    <ClInclude Include="Corredor.h" />
     <ClInclude Include="Cuadrado.h" />
     <ClInclude Include="Figura.h" />
     <ClInclude Include="FigurasService.h" />

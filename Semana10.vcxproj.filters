@@ -49,6 +49,9 @@
     <ClCompile Include="Casa.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Corredor.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrmFiguras.h">
@@ -85,6 +88,9 @@
       <Filter>Service</Filter>
     </ClInclude>
     <ClInclude Include="Casa.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Corredor.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,7 +9,7 @@ JuegoService::JuegoService(int ancho, int alto) {
     limiteAlto = alto;
 
     // Circulo controlable (izquierda)
-    FiguraActual = new Circulo(50, alto / 2 - 30, 60, 0, 0, 255, true);
+	FiguraActual = new Triangulo(50, alto / 2 - 40, 80, 80, 0, 255, 0, true); // Verde
     FiguraActual->setSeMueve(true);  // El círculo siempre puede moverse
     FiguraActual->setNumero(0);
 }

@@ -12,7 +12,6 @@ protected:
     int dirX, dirY;
     bool seMueve;
     int numero;
-
 public:
     Figura(int x, int y, int ancho, int alto, int r, int g, int b, bool relleno);    
     ~Figura();
@@ -29,11 +28,8 @@ public:
     int getDirY();
     bool getSeMueve();
     int getNumero(); 
-    void getColor(int& r, int& g, int& b) {
-        r = this->r;
-        g = this->g;
-        b = this->b;
-    }
+    void getColor(int& r, int& g, int& b);
+    Color getColor();
     void setX(int x);
     void setY(int y);
     void setDirX(int dirX);

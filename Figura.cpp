@@ -69,7 +69,14 @@ bool Figura::getSeMueve() {
 int Figura::getNumero() {
     return numero;
 }
-
+void Figura::getColor(int& r, int& g, int& b) {
+    r = this->r;
+    g = this->g;
+    b = this->b;
+}
+Color Figura::getColor() {
+    return Color::FromArgb(r,g,b);
+}
 
 
 // Setters
