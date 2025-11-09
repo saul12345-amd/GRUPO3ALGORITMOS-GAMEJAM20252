@@ -12,7 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Principal.cpp" />
     <ClCompile Include="FrmFiguras.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -28,16 +27,10 @@
     <ClCompile Include="Rectangulo.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="Cuadrado.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="Triangulo.cpp">
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="Rombo.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Linea.cpp">
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="FigurasService.cpp">
@@ -46,12 +39,28 @@
     <ClCompile Include="JuegoService.cpp">
       <Filter>Service</Filter>
     </ClCompile>
-    <ClCompile Include="Casa.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="Corredor.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="Pentagono.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Hexagono.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Eneagono.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Decagono.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Octogono.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Heptagono.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Principal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrmFiguras.h">
@@ -69,16 +78,10 @@
     <ClInclude Include="Rectangulo.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="Cuadrado.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="Triangulo.h">
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="Rombo.h">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Linea.h">
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="FigurasService.h">
@@ -87,10 +90,25 @@
     <ClInclude Include="JuegoService.h">
       <Filter>Service</Filter>
     </ClInclude>
-    <ClInclude Include="Casa.h">
+    <ClInclude Include="Corredor.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="Corredor.h">
+    <ClInclude Include="Pentagono.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Hexagono.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Heptagono.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Eneagono.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Octogono.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Decagono.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>

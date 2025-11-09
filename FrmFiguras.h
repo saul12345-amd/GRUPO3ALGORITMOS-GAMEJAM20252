@@ -2,9 +2,7 @@
 #include "FigurasService.h"
 #include "Circulo.h"
 #include "Rectangulo.h"
-#include "Cuadrado.h"
 #include "Triangulo.h"
-#include "Casa.h"
 #include "Rombo.h"
 #include "FrmMoverFiguraTecla.h"
 

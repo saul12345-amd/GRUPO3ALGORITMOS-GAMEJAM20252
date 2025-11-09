@@ -114,16 +114,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Casa.cpp" />
     <ClCompile Include="Circulo.cpp" />
     <ClCompile Include="Corredor.cpp" />
-    <ClCompile Include="Cuadrado.cpp" />
+    <ClCompile Include="Decagono.cpp" />
+    <ClCompile Include="Eneagono.cpp" />
     <ClCompile Include="Figura.cpp" />
     <ClCompile Include="FigurasService.cpp" />
     <ClCompile Include="FrmFiguras.cpp" />
     <ClCompile Include="FrmMoverFiguraTecla.cpp" />
+    <ClCompile Include="Heptagono.cpp" />
+    <ClCompile Include="Hexagono.cpp" />
     <ClCompile Include="JuegoService.cpp" />
-    <ClCompile Include="Linea.cpp" />
+    <ClCompile Include="Octogono.cpp" />
+    <ClCompile Include="Pentagono.cpp" />
     <ClCompile Include="Principal.cpp" />
     <ClCompile Include="Rectangulo.cpp" />
     <ClCompile Include="Rombo.cpp" />
@@ -137,10 +140,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Casa.h" />
     <ClInclude Include="Circulo.h" />
     <ClInclude Include="Corredor.h" />
-    <ClInclude Include="Cuadrado.h" />
+    <ClInclude Include="Decagono.h" />
+    <ClInclude Include="Eneagono.h" />
     <ClInclude Include="Figura.h" />
     <ClInclude Include="FigurasService.h" />
     <ClInclude Include="FrmFiguras.h">
@@ -149,8 +152,11 @@
     <ClInclude Include="FrmMoverFiguraTecla.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Heptagono.h" />
+    <ClInclude Include="Hexagono.h" />
     <ClInclude Include="JuegoService.h" />
-    <ClInclude Include="Linea.h" />
+    <ClInclude Include="Octogono.h" />
+    <ClInclude Include="Pentagono.h" />
     <ClInclude Include="Rectangulo.h" />
     <ClInclude Include="Rombo.h" />
     <ClInclude Include="Triangulo.h" />

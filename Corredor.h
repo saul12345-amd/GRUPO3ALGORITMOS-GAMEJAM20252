@@ -1,8 +1,13 @@
 #pragma once
 #include "Figura.h"
 #include "Triangulo.h"
-#include "Cuadrado.h"
-
+#include "Rectangulo.h"
+#include "Pentagono.h"
+#include "Hexagono.h"
+#include "Heptagono.h"
+#include "Octogono.h"
+#include "Eneagono.h"
+#include "Decagono.h"
 #include <ctime>
 #include <cstdlib>
 class Corredor
@@ -16,6 +21,8 @@ private:
 public:
 	Corredor(int x, int y, int ancho, int alto, bool automatico, int lados);
 	~Corredor();
+	void evolucionarFigura();
+	void decrementarLados();
 	Figura* getFiguraCorredor();
 	int getSumaDeAngulos();
 	int getLados();

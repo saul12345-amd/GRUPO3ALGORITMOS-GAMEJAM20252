@@ -17,6 +17,17 @@ Corredor::Corredor(int x, int y, int ancho, int alto,bool automatico, int lados)
 Corredor::~Corredor() {
 	delete figuraCorredor;
 }
+void Corredor::evolucionarFigura() {
+	if (nLados < 10) {
+		nLados++;
+	}
+}
+void Corredor::decrementarLados() {
+	if (nLados > 3) {
+		nLados--;
+	}
+}
+
 Figura* Corredor::getFiguraCorredor() { return figuraCorredor; }
 int Corredor::getSumaDeAngulos() { return (nLados - 2) * 180.0f; }
 int Corredor::getLados() { return nLados; }
@@ -35,19 +46,33 @@ void Corredor::dibujar(Graphics^ graphics) {
 		figuraCorredor->dibujar(graphics);
 	}
 	else if (nLados == 4) {
-		figuraCorredor = new Cuadrado(x, y, ancho, r, g, b, true);
+		figuraCorredor = new Rectangulo(x, y, ancho,alto, r, g, b, true);
 		figuraCorredor->dibujar(graphics);
 	}
 	else if (nLados == 5) {
-
+		figuraCorredor = new Pentagono(x, y, ancho, alto, r, g, b, true);
+		figuraCorredor->dibujar(graphics);
 	}
 	else if (nLados == 6) {
-
+		figuraCorredor = new Hexagono(x, y, ancho, alto, r, g, b, true);
+		figuraCorredor->dibujar(graphics);
 	}
-	else if (nLados == 7){}
-	else if (nLados == 8){}
-	else if (nLados == 9){}
-	else if (nLados == 10){}
+	else if (nLados == 7){
+		figuraCorredor = new Heptagono(x, y, ancho, alto, r, g, b, true);
+		figuraCorredor->dibujar(graphics);
+	}
+	else if (nLados == 8) {
+		figuraCorredor = new Octogono(x, y, ancho, alto, r, g, b, true);
+		figuraCorredor->dibujar(graphics);
+	}
+	else if (nLados == 9) {
+		figuraCorredor = new Eneagono(x, y, ancho, alto, r, g, b, true);
+		figuraCorredor->dibujar(graphics);
+	}
+	else if (nLados == 10) {
+		figuraCorredor = new Decagono(x, y, ancho, alto, r, g, b, true);
+		figuraCorredor->dibujar(graphics);
+	}
 }
 void Corredor::getColor(int& r, int& g, int& b) {
 	r = this->r;

@@ -19,7 +19,7 @@ void Rectangulo::dibujar(Graphics^ graphics) {
     }
 
     // Dibujar número en el centro
-    if (numero > 0) {
+    if (numero >= 0) {
         String^ texto = numero.ToString();
         Font^ font = gcnew Font("Arial", 14, FontStyle::Bold);
         SolidBrush^ brushTexto = gcnew SolidBrush(Color::Black);
