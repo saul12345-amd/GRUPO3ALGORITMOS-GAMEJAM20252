@@ -15,7 +15,7 @@ namespace Semana10 {
 	public ref class FrmFiguraTramo2 : public System::Windows::Forms::Form
 	{
 	public:
-		FrmFiguraTramo2(Figura* figuraActual, bool automatico)
+		FrmFiguraTramo2(Figura* figuraActual, bool automatico, Color colorFigura)
 		{
 			InitializeComponent();
 
@@ -26,18 +26,15 @@ namespace Semana10 {
 			// Guardar datos de la figura
 			int ancho = figuraActual->getAncho();
 			int alto = figuraActual->getAlto();
-			int r, g, b;
-			figuraActual->getColor(r, g, b);
-			int lados = 3; // ✅ SIEMPRE empieza con 3 lados en cada tramo
 			int numero = figuraActual->getNumero();
-
+			colorFigura = figuraActual->getColor();
 			// ✅ Cambiar al nivel 2 primero (esto posiciona correctamente)
 			juegoService->cambiarNivel(2);
 
-			// ✅ Actualizar la figura actual con los datos correctos
-			juegoService->getFiguraActual()->setLados(lados);
-			juegoService->getFiguraActual()->setNumero(numero);
+			juegoService->getFiguraActual()->setLados(5);
 
+			juegoService->getFiguraActual()->setNumero(numero);
+			juegoService->getFiguraActual()->setColor(colorFigura);
 			graphics = panelDibujo->CreateGraphics();
 			velocidad = 7;
 			cambioTramo = false;
@@ -52,6 +49,7 @@ namespace Semana10 {
 		}
 
 	private:
+		Color colorFigura;
 		JuegoService* juegoService;
 		Graphics^ graphics;
 		int velocidad;
@@ -304,7 +302,7 @@ namespace Semana10 {
 			buffer->Graphics->Clear(Color::FromArgb(220, 240, 220));
 
 			// ✅ Cambiar al Tramo 3 cuando llegue a 8 lados
-			if (juegoService->getFiguraActual()->getLados() >= 8 && !cambioTramo) {
+			if (juegoService->getFiguraActual()->getLados() >= 7 && !cambioTramo) {
 				cambioTramo = true;
 				timer->Stop();
 
@@ -312,10 +310,9 @@ namespace Semana10 {
 				Figura* figuraActual = juegoService->getFiguraActual();
 
 				// ✅ Resetear a 3 lados para el siguiente tramo
-				figuraActual->setLados(3);
-
+				figuraActual->setLados(7);
 				// Crear el nuevo formulario
-				FrmFiguraTramo3^ frmTramo3 = gcnew FrmFiguraTramo3(figuraActual, automatico);
+				FrmFiguraTramo3^ frmTramo3 = gcnew FrmFiguraTramo3(figuraActual, automatico, colorFigura);
 				frmTramo3->Show();
 
 				// Cerrar el formulario actual

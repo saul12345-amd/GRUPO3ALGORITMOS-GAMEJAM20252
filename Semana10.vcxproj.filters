@@ -67,7 +67,9 @@
     <ClCompile Include="FrmFiguraTramo3.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Poligono.cpp" />
+    <ClCompile Include="Poligono.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrmFiguras.h">
@@ -124,6 +126,8 @@
     <ClInclude Include="FrmFiguraTramo3.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Poligono.h" />
+    <ClInclude Include="Poligono.h">
+      <Filter>Model</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

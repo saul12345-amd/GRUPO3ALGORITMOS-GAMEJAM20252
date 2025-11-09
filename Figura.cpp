@@ -46,6 +46,12 @@ void Figura::getColor(int& r, int& g, int& b) {
 Color Figura::getColor() {
     return Color::FromArgb(r, g, b);
 }
+// ---------------------- Setters ----------------------
+void Figura::setColor(Color color) {
+    this->r = color.R;
+    this->g = color.G;
+    this->b = color.B;
+}
 void Figura::setLados(int l) {
     this->lados = l;
 }

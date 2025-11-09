@@ -14,7 +14,7 @@ namespace Semana10 {
 	public ref class FrmFiguraTramo3 : public System::Windows::Forms::Form
 	{
 	public:
-		FrmFiguraTramo3(Figura* figuraActual, bool automatico)
+		FrmFiguraTramo3(Figura* figuraActual, bool automatico, Color colorFigura)
 		{
 			InitializeComponent();
 
@@ -25,14 +25,12 @@ namespace Semana10 {
 			int numero = figuraActual->getNumero();
 			juegoService->setModoAutomatico(automatico);
 			this->automatico = automatico;
-
+			 colorFigura = figuraActual->getColor();
 			// ✅ Cambiar al nivel 3 primero
 			juegoService->cambiarNivel(3);
-
-			// ✅ Actualizar con 3 lados
-			juegoService->getFiguraActual()->setLados(3);
+			juegoService->getFiguraActual()->setLados(7);
 			juegoService->getFiguraActual()->setNumero(numero);
-
+			juegoService->getFiguraActual()->setColor(colorFigura);
 			graphics = panelDibujo->CreateGraphics();
 			velocidad = 9;
 		}

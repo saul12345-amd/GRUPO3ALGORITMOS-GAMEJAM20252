@@ -10,7 +10,7 @@ protected:
     int dirX, dirY;
     bool seMueve;
     int numero;
-    int lados; // ?? Cantidad de lados
+    int lados; 
 
 public:
     Figura(int x, int y, int ancho, int alto, int r, int g, int b, bool relleno);
@@ -37,6 +37,7 @@ public:
     Color getColor();
 
     // Setters
+    void setColor(Color color);
 	void setLados(int lados);
     void setX(int x);
     void setY(int y);

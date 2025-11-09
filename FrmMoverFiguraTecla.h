@@ -24,6 +24,7 @@ namespace Semana10 {
 			this->automatico = Automatico;
 			velocidad = 5;
 			cambioTramo = false;
+			colorFigura = juegoService->getFiguraActual()->getColor();
 		}
 
 	protected:
@@ -35,6 +36,7 @@ namespace Semana10 {
 		}
 
 	private:
+		Color colorFigura;
 		JuegoService* juegoService;
 		Graphics^ graphics;
 		int velocidad;
@@ -282,32 +284,24 @@ namespace Semana10 {
 			try {
 				buffer->Graphics->Clear(Color::LightBlue);
 
-				if (juegoService->getFiguraActual()->getLados() == 7 && !cambioTramo) {
+				if (juegoService->getFiguraActual()->getLados() == 5 && !cambioTramo) {
 					cambioTramo = true;
 					timer->Stop();
 
-					// Crear una COPIA de la figura actual
-					Figura* original = juegoService->getFiguraActual();
+					// Obtener la figura actual
+					Figura* figuraActual = juegoService->getFiguraActual();
 
-					int x = original->getX();
-					int y = original->getY();
-					int ancho = original->getAncho();
-					int alto = original->getAlto();
-					int r, g, b;
-					original->getColor(r, g, b);
-					int lados = original->getLados();
-					int numero = original->getNumero();
-
-					Figura* copia = new Poligono(x, y, ancho, alto, r, g, b, true, lados);
-					copia->setNumero(numero);
-					copia->setSeMueve(true);
-					//actualizo los lados de la copia para el tramo 2
-					copia->setLados(3);
-
-					FrmFiguraTramo2^ frmTramo2 = gcnew FrmFiguraTramo2(copia,automatico);
+					// ✅ Resetear a 3 lados para el siguiente tramo
+					figuraActual->setLados(5);
+					figuraActual->setColor(juegoService->getFiguraActual()->getColor());
+					// Crear el nuevo formulario
+					FrmFiguraTramo2^ frmTramo2 = gcnew FrmFiguraTramo2(figuraActual, automatico, colorFigura);
 					frmTramo2->Show();
 
+					// Cerrar el formulario actual
 					this->Close();
+
+					delete buffer;
 					return;
 				}
 
