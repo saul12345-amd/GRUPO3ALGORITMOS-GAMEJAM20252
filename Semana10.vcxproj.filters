@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Model">
+      <UniqueIdentifier>{0fcb8e36-cd7d-4f34-92d6-37e3be3269cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service">
+      <UniqueIdentifier>{297db06b-b7da-4a73-ba22-e1c5e8b8aa55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{8bf4dd07-7e77-4171-9579-97ffe50f28e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Principal.cpp" />
+    <ClCompile Include="FrmFiguras.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FrmMoverFiguraTecla.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Figura.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Circulo.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangulo.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Cuadrado.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangulo.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Rombo.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Linea.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FigurasService.cpp">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="JuegoService.cpp">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Casa.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FrmFiguras.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrmMoverFiguraTecla.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Figura.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Circulo.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangulo.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Cuadrado.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangulo.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Rombo.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Linea.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="FigurasService.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="JuegoService.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Casa.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

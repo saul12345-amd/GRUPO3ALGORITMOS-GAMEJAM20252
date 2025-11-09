@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where:*)",
+      "Bash(\"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\devenv.com\" Semana10.sln /Rebuild \"Debug|Win32\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
