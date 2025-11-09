@@ -40,4 +40,9 @@ public:
 
 	// Dibujar escena (figuras)
     void dibujar(Graphics^ graphics);
+
+    Figura* getFiguraActual() {
+        return FiguraActual;
+    }
+
 };
