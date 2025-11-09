@@ -55,6 +55,9 @@ namespace Semana10 {
 		System::Windows::Forms::Panel^ panelDibujo;
 
 		System::Windows::Forms::Timer^ timer;
+	private: System::Windows::Forms::Panel^ panel1;
+	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Label^ label2;
 
 	private: System::ComponentModel::IContainer^ components;
 		   /// <summary>
@@ -71,37 +74,76 @@ namespace Semana10 {
 		{
 			this->components = (gcnew System::ComponentModel::Container());
 			this->panelDibujo = (gcnew System::Windows::Forms::Panel());
+			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->timer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->panelDibujo->SuspendLayout();
+			this->panel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// panelDibujo
 			// 
-			this->panelDibujo->BackColor = System::Drawing::Color::White;
+			this->panelDibujo->BackColor = System::Drawing::Color::Snow;
 			this->panelDibujo->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->panelDibujo->Location = System::Drawing::Point(18, 19);
-			this->panelDibujo->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->panelDibujo->Controls->Add(this->label2);
+			this->panelDibujo->Location = System::Drawing::Point(16, 15);
+			this->panelDibujo->Margin = System::Windows::Forms::Padding(4);
 			this->panelDibujo->Name = L"panelDibujo";
-			this->panelDibujo->Size = System::Drawing::Size(1199, 768);
+			this->panelDibujo->Size = System::Drawing::Size(943, 615);
 			this->panelDibujo->TabIndex = 0;
 			this->panelDibujo->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &FrmMoverFiguraTecla::panelDibujo_Paint);
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(16, 15);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(57, 16);
+			this->label2->TabIndex = 1;
+			this->label2->Text = L"Tramo 1";
 			// 
 			// timer
 			// 
 			this->timer->Interval = 30;
 			this->timer->Tick += gcnew System::EventHandler(this, &FrmMoverFiguraTecla::timer_Tick);
 			// 
+			// panel1
+			// 
+			this->panel1->BackColor = System::Drawing::SystemColors::ButtonShadow;
+			this->panel1->Controls->Add(this->label1);
+			this->panel1->Location = System::Drawing::Point(957, 15);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(406, 615);
+			this->panel1->TabIndex = 1;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(19, 16);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(66, 16);
+			this->label1->TabIndex = 0;
+			this->label1->Text = L"MiniMapa";
+			this->label1->Click += gcnew System::EventHandler(this, &FrmMoverFiguraTecla::label1_Click);
+			// 
 			// FrmMoverFiguraTecla
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1245, 894);
+			this->ClientSize = System::Drawing::Size(1365, 715);
+			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->panelDibujo);
 			this->KeyPreview = true;
-			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"FrmMoverFiguraTecla";
 			this->Text = L"Mover Figuras con Teclas";
 			this->Load += gcnew System::EventHandler(this, &FrmMoverFiguraTecla::FrmMoverFiguraTecla_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &FrmMoverFiguraTecla::FrmMoverFiguraTecla_KeyDown);
+			this->panelDibujo->ResumeLayout(false);
+			this->panelDibujo->PerformLayout();
+			this->panel1->ResumeLayout(false);
+			this->panel1->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
@@ -118,7 +160,7 @@ namespace Semana10 {
 		BufferedGraphicsContext^ intervalo = BufferedGraphicsManager::Current;
 		BufferedGraphics^ buffer = intervalo->Allocate(graphics, panelDibujo->ClientRectangle);
 		//borrar
-		buffer->Graphics->Clear(Color::White);
+		buffer->Graphics->Clear(Color::NavajoWhite);
 		//mover
 		juegoService->moverFiguras();
 		//dibujar
@@ -155,5 +197,7 @@ namespace Semana10 {
 		}
 	}
 
-	};
+	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+};
 }
