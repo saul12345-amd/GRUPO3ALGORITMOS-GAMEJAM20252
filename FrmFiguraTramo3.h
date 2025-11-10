@@ -14,7 +14,7 @@ namespace Semana10 {
 	public ref class FrmFiguraTramo3 : public System::Windows::Forms::Form
 	{
 	public:
-		FrmFiguraTramo3(Figura* figuraActual, bool automatico, Color colorFigura)
+		FrmFiguraTramo3(Figura* figuraActual, bool automatico, Color colorFigura, int tiempo)
 		{
 			InitializeComponent();
 
@@ -24,7 +24,8 @@ namespace Semana10 {
 			juegoService->setModoAutomatico(automatico);
 			this->automatico = automatico;
 			colorFigura = figuraActual->getColor();
-
+			this->tiempoAcumulado = 0;
+			this->tiempoAcumulado += tiempo;
 			juegoService->cambiarNivel(3);
 			juegoService->getFiguraActual()->setLados(7);
 			juegoService->getFiguraActual()->setNumero(numero);
@@ -49,6 +50,7 @@ namespace Semana10 {
 		int velocidad;
 		int automatico;
 		int tiempoRestante;
+		int tiempoAcumulado;
 		System::Windows::Forms::Panel^ panelDibujo;
 		System::Windows::Forms::Timer^ timer;
 		System::Windows::Forms::Timer^ timerCronometro;
@@ -344,11 +346,13 @@ namespace Semana10 {
 				timer->Stop();
 				timerCronometro->Stop();
 
-				juegoService->dibujar(buffer->Graphics);
-				MessageBox::Show("¡Felicidades! Has completado todos los tramos del juego.",
-					"Juego Completado",
+				MessageBox::Show(
+					"¡Felicidades! Has completado todos los tramos del juego.\n\n"
+					" Tiempo récord total: " + (tiempoAcumulado+ 10 -tiempoRestante).ToString() + " segundos",
+					" Juego Completado",
 					MessageBoxButtons::OK,
-					MessageBoxIcon::Information);
+					MessageBoxIcon::Information
+				);
 
 				delete buffer;
 				this->Close();

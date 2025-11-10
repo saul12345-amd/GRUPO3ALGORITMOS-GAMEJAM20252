@@ -15,13 +15,15 @@ namespace Semana10 {
 	public ref class FrmFiguraTramo2 : public System::Windows::Forms::Form
 	{
 	public:
-		FrmFiguraTramo2(Figura* figuraActual, bool automatico, Color colorFigura)
+		FrmFiguraTramo2(Figura* figuraActual, bool automatico, Color colorFigura, int tiempo)
 		{
 			InitializeComponent();
 
 			juegoService = new JuegoService(panelDibujo->Width, panelDibujo->Height);
 			juegoService->setModoAutomatico(automatico);
 			this->automatico = automatico;
+			this->tiempoAcumulado = 0;
+			this->tiempoAcumulado += tiempo;
 
 			int ancho = figuraActual->getAncho();
 			int alto = figuraActual->getAlto();
@@ -55,6 +57,7 @@ namespace Semana10 {
 		bool cambioTramo;
 		bool automatico;
 		int tiempoRestante;
+		int tiempoAcumulado;
 
 		System::Windows::Forms::Panel^ panelDibujo;
 		System::Windows::Forms::Timer^ timer;
@@ -354,8 +357,8 @@ namespace Semana10 {
 
 				Figura* figuraActual = juegoService->getFiguraActual();
 				figuraActual->setLados(7);
-
-				FrmFiguraTramo3^ frmTramo3 = gcnew FrmFiguraTramo3(figuraActual, automatico, colorFigura);
+				int tiempoTotal = tiempoAcumulado + (10 - tiempoRestante);
+				FrmFiguraTramo3^ frmTramo3 = gcnew FrmFiguraTramo3(figuraActual, automatico, colorFigura,20 - tiempoTotal );
 				frmTramo3->Show();
 
 				this->Close();
