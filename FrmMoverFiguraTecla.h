@@ -11,10 +11,12 @@ namespace Semana10 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Media;
 
 	public ref class FrmMoverFiguraTecla : public System::Windows::Forms::Form
 	{
 	public:
+		SoundPlayer^ variableSonido = gcnew SoundPlayer("MusicFondo.wav");
 		FrmMoverFiguraTecla(bool Automatico)
 		{
 			InitializeComponent();
@@ -26,6 +28,7 @@ namespace Semana10 {
 			cambioTramo = false;
 			colorFigura = juegoService->getFiguraActual()->getColor();
 			tiempoRestante = 10;
+			variableSonido->PlayLooping();
 		}
 
 	protected:

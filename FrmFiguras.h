@@ -1,5 +1,4 @@
 #pragma once
-#include "FigurasService.h"
 #include "Circulo.h"
 #include "Rectangulo.h"
 #include "Triangulo.h"

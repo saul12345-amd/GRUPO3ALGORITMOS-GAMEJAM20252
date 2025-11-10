@@ -119,7 +119,6 @@
     <ClCompile Include="Decagono.cpp" />
     <ClCompile Include="Eneagono.cpp" />
     <ClCompile Include="Figura.cpp" />
-    <ClCompile Include="FigurasService.cpp" />
     <ClCompile Include="FrmFiguras.cpp" />
     <ClCompile Include="FrmFiguraTramo2.cpp" />
     <ClCompile Include="FrmFiguraTramo3.cpp" />
@@ -148,7 +147,6 @@
     <ClInclude Include="Decagono.h" />
     <ClInclude Include="Eneagono.h" />
     <ClInclude Include="Figura.h" />
-    <ClInclude Include="FigurasService.h" />
     <ClInclude Include="FrmFiguras.h">
       <FileType>CppForm</FileType>
     </ClInclude>
